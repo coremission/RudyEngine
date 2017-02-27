@@ -1,0 +1,9 @@
+[submodule "engine/external/glew"]
+	path = engine/external/glew
+	url = git@github.com:nigels-com/glew.git
+[submodule "engine/external/glfw"]
+	path = engine/external/glfw
+	url = git@github.com:glfw/glfw.git
+[submodule "engine/external/glm"]
+	path = engine/external/glm
+	url = git@github.com:g-truc/glm.git

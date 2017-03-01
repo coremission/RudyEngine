@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../engine/external/glew/include/GL/glew.h
+stddef.h
+-
+inttypes.h
+-
+stdint.h
+-
+inttypes.h
+-
+Availability.h
+-
+OpenGL/glu.h
+-
+GL/glu.h
+-
+
+/Users/skormishin/Mine/CMakeStudy/engine/Engine.cpp
+Engine.hpp
+/Users/skormishin/Mine/CMakeStudy/engine/Engine.hpp
+GL/glew.h
+-
+
+/Users/skormishin/Mine/CMakeStudy/engine/Engine.hpp
+

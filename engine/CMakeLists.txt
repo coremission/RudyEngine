@@ -18,18 +18,11 @@ include_directories(${GLFW_SOURCE_DIR}/include
                     ${GLM_SOURCE_DIR}
                     ${GLEW_SOURCE_DIR}/include)
 
-add_library(glew STATIC
-  ${GLEW_SOURCE_DIR}/src/glew.c
-  ${GLEW_SOURCE_DIR}/include
-)
+add_library(glew STATIC ${GLEW_SOURCE_DIR}/src/glew.c  ${GLEW_SOURCE_DIR}/include)
 
 target_link_libraries(glew ${GLFW_LIBRARIES})
 
-add_definitions(
-  -DGLEW_STATIC
-)
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+add_definitions(-DGLEW_STATIC)
 
 add_library(engine Engine.cpp)
 target_link_libraries(engine glfw ${GLFW_LIBRARIES} glew)

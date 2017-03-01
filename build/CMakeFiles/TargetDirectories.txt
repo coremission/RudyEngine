@@ -1,0 +1,12 @@
+/Users/skormishin/Mine/CMakeStudy/build/CMakeFiles/rebuild_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/CMakeFiles/edit_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/CMakeFiles/DemoProject.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/CMakeFiles/rebuild_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/CMakeFiles/edit_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/CMakeFiles/engine.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/CMakeFiles/glew.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/external/glew/CMakeFiles/rebuild_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/external/glew/CMakeFiles/edit_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/external/glew/src/CMakeFiles/rebuild_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/external/glew/src/CMakeFiles/edit_cache.dir
+/Users/skormishin/Mine/CMakeStudy/build/engine/external/glew/src/CMakeFiles/glfw.dir

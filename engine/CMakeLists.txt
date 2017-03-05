@@ -13,10 +13,10 @@ set(GLFW_INSTALL OFF CACHE BOOL "")
 
 add_subdirectory(${GLFW_SOURCE_DIR})
 
-include_directories(${GLFW_SOURCE_DIR}/include
+include_directories(${GLAD_SOURCE_DIR}/include
+                    ${GLFW_SOURCE_DIR}/include
                     ${GLFW_SOURCE_DIR}/deps
-                    ${GLM_SOURCE_DIR}
-                    ${GLAD_SOURCE_DIR}/include)
+                    ${GLM_SOURCE_DIR})
 
 add_library(glad STATIC ${GLAD_SOURCE_DIR}/src/glad.c)
 

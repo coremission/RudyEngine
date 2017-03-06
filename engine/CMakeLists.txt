@@ -20,5 +20,6 @@ include_directories(${GLAD_SOURCE_DIR}/include
 
 add_library(glad STATIC ${GLAD_SOURCE_DIR}/src/glad.c)
 
+# Rudy Engine set up
 add_library(engine Engine.cpp)
 target_link_libraries(engine glfw ${GLFW_LIBRARIES} glad)

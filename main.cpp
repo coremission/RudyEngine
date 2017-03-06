@@ -35,7 +35,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 const GLuint WIDTH = 800, HEIGHT = 600;
 
 void glfwErrorCallback(int errorCode, const char* errorDescription) {
-    std::cout << glfwGetVersionString() << std::endl;
     std::cout << "glfw error (" << errorCode << ") " << errorDescription << std::endl;
 }
 
@@ -43,6 +42,7 @@ int main()
 {
     // Init GLFW
     glfwInit();
+    
     // Set all the required options for GLFW
     glfwSetErrorCallback(glfwErrorCallback);
     
@@ -75,6 +75,7 @@ int main()
         return -1;
     }
 
+    std::cout << glGetString(GL_VERSION) << std::endl;
     // Define the viewport dimensions
     glViewport(0, 0, WIDTH, HEIGHT);
 

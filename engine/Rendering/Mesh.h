@@ -5,7 +5,7 @@
 #include <Model/VertexData.h>
 
 #include <vector>
-#include <glew/glew.h>
+#include <glad/glad.h>
 
 class LegacyMesh: public BaseMesh
 {

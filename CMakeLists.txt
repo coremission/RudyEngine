@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 project (RudyEngine)
-
 add_subdirectory(engine)
 
 include_directories(engine/external/glm/glm)

@@ -1,4 +1,4 @@
-﻿#ifndef GAMEOBJECT_h
+#ifndef GAMEOBJECT_h
 #define GAMEOBJECT_h
 
 #include <Rendering/BaseRenderer.h>

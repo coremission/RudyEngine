@@ -1,7 +1,7 @@
 ﻿#ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <glew/glew.h>
+#include <glad/glad.h>
 #include <string>
 #include <memory>
 #include <map>
@@ -17,7 +17,7 @@ public:
 	ShaderProgram(const std::string &materialName, const std::string &vertexShaderPath, const std::string &fragmentShaderPath);
 // Shader programs cache
 private:
-	static std::map<std::string, std::shared_ptr<ShaderProgram>> programsCache;
+	static std::map<std::string, std::shared_ptr<ShaderProgram> > programsCache;
 public:
 	static std::shared_ptr<ShaderProgram> get(const std::string& programName, const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
 	static std::shared_ptr<ShaderProgram> getDefaultSpriteProgram();

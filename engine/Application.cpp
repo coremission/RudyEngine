@@ -3,8 +3,7 @@
 #include "System/system.hpp"
 
 #include <iostream>
-#define GLEW_STATIC
-#include <glew/glew.h>
+#include <glad/glad.h>
 #include <glfw/glfw3.h>
 
 using namespace std;

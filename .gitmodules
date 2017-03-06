@@ -4,3 +4,9 @@
 [submodule "engine/external/glm"]
 	path = engine/external/glm
 	url = git@github.com:g-truc/glm.git
+[submodule "engine/external/assimp"]
+	path = engine/external/assimp
+	url = git@github.com:assimp/assimp.git
+[submodule "engine/external/gli"]
+	path = engine/external/gli
+	url = git@github.com:g-truc/gli.git

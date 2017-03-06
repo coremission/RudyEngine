@@ -1,5 +1,5 @@
 ﻿#include "Mesh.h"
-#include <glew/glew.h>
+#include <glad/glad.h>
 
 #define attribOffset(field) (reinterpret_cast<void *>(offsetof(VertexData, field)))
 

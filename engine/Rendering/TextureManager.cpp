@@ -1,7 +1,7 @@
 ﻿#include "TextureManager.h"
 
 #include <System/IOManager.h>
-#include <glew/glew.h>
+#include <glad/glad.h>
 #include <gli/gli.hpp>
 #include <lodepng/picopng.h>
 

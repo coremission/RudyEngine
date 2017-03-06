@@ -1,7 +1,7 @@
 #ifndef SHADERLOADER_H
 #define SHADERLOADER_H
 
-#include <glew/glew.h>
+#include <glad/glad.h>
 #include <string>
 
 class ShaderLoader

@@ -34,23 +34,10 @@ void Application::initialize(int* argc, char ** argv) {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK) {
-		cout << "Failed to initialize GLEW" << endl;
-		return;
-	}
-
 	glfwGetFramebufferSize(window, &Screen::width, &Screen::height);
 	glViewport(0, 0, Screen::width, Screen::height);
 
 	glPolygonMode(GL_FRONT, GL_FILL);
-
-	if (glewIsSupported("GL_VERSION_4_3")) {
-		std::cout << " GLEW Version is 4.3\n ";
-	}
-	else {
-		std::cout << "GLEW 4.3 not supported\n ";
-	}
 
 	// keyboard callback
 	glfwSetKeyCallback(window, processKeyboard);

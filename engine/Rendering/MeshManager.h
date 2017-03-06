@@ -16,7 +16,7 @@ public:
 	static std::shared_ptr<LegacyMesh> registerMesh(std::string id, std::vector<VertexData> vertices, std::vector<GLuint> indices);
 	static std::shared_ptr<LegacyMesh> getQuadMesh();
 	static std::shared_ptr<LegacyMesh> getIndexedQuadMesh();
-	static std::shared_ptr<BaseMesh> MeshManager::getSkyboxMesh();
+	static std::shared_ptr<BaseMesh> getSkyboxMesh();
 	static std::shared_ptr<BaseMesh> getDefaultSpriteMesh();
 };
 

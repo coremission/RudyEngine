@@ -2,8 +2,9 @@
 
 #include <System/IOManager.h>
 #include <glad/glad.h>
-#include <gli/gli.hpp>
-#include <lodepng/picopng.h>
+// todo: temporary disabled
+//#include <gli/gli.hpp>
+#include <picopng.h>
 
 #include <vector>
 #include <memory>
@@ -33,6 +34,7 @@ std::shared_ptr<Texture> TextureManager::getTexture(std::string fileName)
 	return result;
 }
 
+/* todo: temporary disabled
 std::shared_ptr<Texture> TextureManager::getCompressedTexture(const std::string& fileName)
 {
 	auto result = std::make_shared<Texture>();
@@ -155,6 +157,7 @@ std::shared_ptr<Texture> TextureManager::getCompressedTexture(const std::string&
 	result->id = TextureName;
 	return result;
 }
+*/
 
 void TextureManager::loadPng(const std::string& filename, std::vector<unsigned char>& outBuffer, unsigned long& width, unsigned long& height)
 {

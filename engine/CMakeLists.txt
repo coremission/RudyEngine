@@ -36,12 +36,12 @@ set(RUDY_MODEL_SOURCES Model/Component.cpp Model/GameObject.cpp Model/ModelLoade
 set(RUDY_RENDERING_SOURCES Rendering/BaseRenderer.cpp Rendering/Camera.cpp Rendering/Mesh.cpp Rendering/MeshManager.cpp Rendering/rendering.cpp Rendering/ShaderLoader.cpp Rendering/SkyboxRenderer.cpp
     Rendering/Sprite.cpp Rendering/SpriteRenderer.cpp Rendering/Texture.cpp Rendering/TextureManager.cpp Rendering/WireframeRenderer.cpp)
 set(RUDY_OTHER_SOURCES ${PICO_PNG_DIR}/picopng.cpp)
-add_library(engine
+add_library(engine STATIC 
             Application.cpp
             rudymath.cpp
             ${RUDY_MODEL_SOURCES}
             ${RUDY_RENDERING_SOURCES}
             ${RUDY_OTHER_SOURCES})
 
-SET_TARGET_PROPERTIES(engine PROPERTIES COMPILE_FLAGS "-std=c++14")
+set_target_properties(engine PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(engine glfw ${GLFW_LIBRARIES} glad assimp)

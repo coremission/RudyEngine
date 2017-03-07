@@ -18,7 +18,7 @@
 
 // GLFW
 #include <GLFW/glfw3.h>
-
+#include <Application.h>
 
 // This example is taken from http://learnopengl.com/
 // http://learnopengl.com/code_viewer.php?code=getting-started/hellowindow2
@@ -38,8 +38,9 @@ void glfwErrorCallback(int errorCode, const char* errorDescription) {
     std::cout << "glfw error (" << errorCode << ") " << errorDescription << std::endl;
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    Application::initialize(&argc, argv);
     // Init GLFW
     glfwInit();
     

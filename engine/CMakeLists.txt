@@ -33,14 +33,17 @@ add_library(glad STATIC ${GLAD_SOURCE_DIR}/src/glad.c)
 ############ RudyEngine ############
 ####################################
 set(RUDY_MODEL_SOURCES Model/Component.cpp Model/GameObject.cpp Model/ModelLoader.cpp Model/Scene.cpp Model/Transform.cpp Model/VertexData.cpp)
-set(RUDY_RENDERING_SOURCES Rendering/BaseRenderer.cpp Rendering/Camera.cpp Rendering/Mesh.cpp Rendering/MeshManager.cpp Rendering/rendering.cpp Rendering/ShaderLoader.cpp Rendering/SkyboxRenderer.cpp
+set(RUDY_RENDERING_SOURCES Rendering/BaseRenderer.cpp Rendering/Camera.cpp Rendering/Mesh.cpp Rendering/MeshManager.cpp Rendering/rendering.cpp Rendering/ShaderLoader.cpp Rendering/ShaderProgram.cpp Rendering/SkyboxRenderer.cpp
     Rendering/Sprite.cpp Rendering/SpriteRenderer.cpp Rendering/Texture.cpp Rendering/TextureManager.cpp Rendering/WireframeRenderer.cpp)
+set(RUDY_SYSTEM_SOURCES System/Input.cpp System/IOManager.cpp System/Screen.cpp System/Time.cpp)
 set(RUDY_OTHER_SOURCES ${PICO_PNG_DIR}/picopng.cpp)
+
 add_library(engine STATIC 
             Application.cpp
             rudymath.cpp
             ${RUDY_MODEL_SOURCES}
             ${RUDY_RENDERING_SOURCES}
+            ${RUDY_SYSTEM_SOURCES}
             ${RUDY_OTHER_SOURCES})
 
 set_target_properties(engine PROPERTIES COMPILE_FLAGS "-std=c++14")

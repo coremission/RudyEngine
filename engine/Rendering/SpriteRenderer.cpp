@@ -9,7 +9,7 @@
 SpriteRenderer::SpriteRenderer(GameObject* _gameObject, const std::string& spriteFileName):
 	Renderer(MeshManager::getDefaultSpriteMesh()),
 	gameObject(_gameObject),
-	spriteTexture(TextureManager::getCompressedTexture(spriteFileName))
+	spriteTexture(TextureManager::getTexture(spriteFileName))
 {
 }
 

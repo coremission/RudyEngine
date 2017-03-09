@@ -21,3 +21,12 @@ set(BREAKOUT_SRC ${BREAKOUT_DIR}/main.cpp ${BREAKOUT_DIR}/BallBehaviour.cpp ${BR
 add_executable(breakout ${BREAKOUT_SRC})
 set_target_properties(breakout PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(breakout engine)
+
+# Tests and test projects
+set(TESTS_DIR tests)
+# Renderering tests
+set(RENDERING_TESTS_DIR ${TESTS_DIR}/renderingTestFixture)
+add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp)
+set_target_properties(renderingTest PROPERTIES COMPILE_FLAGS "-std=c++14")
+target_link_libraries(renderingTest engine)
+

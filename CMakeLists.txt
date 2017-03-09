@@ -29,4 +29,6 @@ set(RENDERING_TESTS_DIR ${TESTS_DIR}/renderingTestFixture)
 add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp)
 set_target_properties(renderingTest PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(renderingTest engine)
-
+add_custom_command(TARGET renderingTest PRE_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_directory
+                ${RENDERING_TESTS_DIR}/shaders $<TARGET_FILE_DIR:renderingTest>/shaders)

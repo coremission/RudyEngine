@@ -1,6 +1,4 @@
 #include <iostream>
-
-
 // THIS IS OPTIONAL AND NOT REQUIRED, ONLY USE THIS IF YOU DON'T WANT GLAD TO INCLUDE windows.h
 // GLAD will include windows.h for APIENTRY if it was not previously defined.
 // Make sure you have the correct definition for APIENTRY for platforms which define _WIN32 but don't use __stdcall
@@ -18,7 +16,6 @@
 
 // GLFW
 #include <GLFW/glfw3.h>
-#include <Application.h>
 
 // This example is taken from http://learnopengl.com/
 // http://learnopengl.com/code_viewer.php?code=getting-started/hellowindow2
@@ -40,7 +37,6 @@ void glfwErrorCallback(int errorCode, const char* errorDescription) {
 
 int main(int argc, char** argv)
 {
-    Application::initialize(&argc, argv);
     // Init GLFW
     glfwInit();
     

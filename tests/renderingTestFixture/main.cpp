@@ -1,10 +1,10 @@
-#include <Rendering/SpriteRenderer.h>
 #include <Rendering/Camera.h>
 #include <Application.h>
 #include <System/system.hpp>
 
 #include <iostream>
 #include <memory>
+#include <Rendering/TrailRenderer.h>
 
 using namespace std;
 
@@ -39,5 +39,5 @@ void _do(int argc, char **argv) {
 
 void setUpScene() {
 	GameObject* tempGo = new GameObject("temp");
-	tempGo->renderer = make_unique<SpriteRenderer>(tempGo, "Sprites\\drakeq_up.dds");
+	tempGo->renderer = make_unique<TrailRenderer>(tempGo);
 }

@@ -3,6 +3,7 @@
 #include "System/system.hpp"
 
 #include <iostream>
+
 #include <glad/glad.h>
 #include <glfw/glfw3.h>
 
@@ -30,6 +31,13 @@ void Application::initialize(int* argc, char ** argv) {
 		return;
 	}
 	glfwMakeContextCurrent(window);
+
+	// init glad
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		std::cout << "Failed to initialize OpenGL context" << std::endl;
+		return;
+	}
 
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glEnable(GL_DEPTH_TEST);

@@ -30,7 +30,7 @@ include_directories(${GLAD_SOURCE_DIR}/include
 add_library(glad STATIC ${GLAD_SOURCE_DIR}/src/glad.c)
 
 ####################################
-############ RudyEngine ############
+############ Rudy Engine ###########
 ####################################
 set(RUDY_MODEL_SOURCES Model/Component.cpp Model/GameObject.cpp Model/ModelLoader.cpp Model/Scene.cpp Model/Transform.cpp Model/VertexData.cpp)
 set(RUDY_RENDERING_SOURCES Rendering/BaseRenderer.cpp Rendering/Camera.cpp Rendering/Mesh.cpp Rendering/MeshManager.cpp Rendering/rendering.cpp Rendering/ShaderLoader.cpp Rendering/ShaderProgram.cpp Rendering/SkyboxRenderer.cpp

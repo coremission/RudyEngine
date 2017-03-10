@@ -7,12 +7,16 @@ include_directories(engine/external/glad/include)
 include_directories(engine/external/glfw/include)
 include_directories(engine/)
 
-# test project
-add_executable(DemoProject main.cpp)
-target_link_libraries(DemoProject engine)
-set_target_properties(DemoProject PROPERTIES COMPILE_FLAGS "-std=c++14")
+###############################################################################
+####################### D E M O ###############################################
+###############################################################################
+add_executable(learnOpenGL demo/learnopengl/main.cpp)
+target_link_libraries(learnOpenGL engine)
+set_target_properties(learnOpenGL PROPERTIES COMPILE_FLAGS "-std=c++14")
 
-# Games
+###############################################################################
+####################### G A M E S #############################################
+###############################################################################
 set(GAMES_DIR games)
 # Classic Breakout Game
 set(BREAKOUT_DIR ${GAMES_DIR}/breakout)
@@ -22,7 +26,9 @@ add_executable(breakout ${BREAKOUT_SRC})
 set_target_properties(breakout PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(breakout engine)
 
-# Tests and test projects
+###############################################################################
+####################### T E S T S #############################################
+###############################################################################
 set(TESTS_DIR tests)
 # Renderering tests
 set(RENDERING_TESTS_DIR ${TESTS_DIR}/renderingTestFixture)

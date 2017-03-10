@@ -13,11 +13,25 @@ using namespace std;
 std::unique_ptr<Models::Scene> Application::scene = std::make_unique<Models::Scene>();
 GLFWwindow* Application::window = nullptr;
 
+void glfwErrorCallback(int errorCode, const char* errorDescription) {
+    std::cout << "glfw error (" << errorCode << ") " << errorDescription << std::endl;
+}
+
 void Application::initialize(int* argc, char ** argv) {
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	// Set all the required options for GLFW
+    glfwSetErrorCallback(glfwErrorCallback);
+	// todo: make this work on MacOSX
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    
+    glfwWindowHint(GLFW_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_VERSION_MINOR, 3);
+    
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_DEPTH_BITS, 32);
 

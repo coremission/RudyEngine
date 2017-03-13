@@ -6,8 +6,9 @@
 
 struct TrailMaterialTraits {
 	static constexpr const char* ShaderProgramName = "trail_renderer_shader_prog";
-	static constexpr const char* VertexShaderPath = "shaders\\Vertex.glsl";
-	static constexpr const char* FragmentShaderPath = "shaders\\Fragment.glsl";
+    // todo: such name works for Mac OSX, need to check on Windows
+	static constexpr const char* VertexShaderPath = "shaders/Vertex.glsl";
+	static constexpr const char* FragmentShaderPath = "shaders/Fragment.glsl";
 	typedef float PerVertexData;
 	typedef std::vector<PerVertexData> MeshData;
 	typedef Mesh<PerVertexData> Mesh;

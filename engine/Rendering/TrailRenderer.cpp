@@ -21,7 +21,12 @@ void TrailRenderer::render() const
 
 	// 3. draw triangle strip
     // draw line for a while
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 10);
+    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 16);
+    
+    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    
     //glDrawArrays(GL_LINES, 0, 6);
     
 	//std::cout << "trail render" << std::endl;
@@ -49,9 +54,13 @@ std::shared_ptr<BaseMesh> TrailRenderer::createMesh()
         auto _vector = point - prevPoint;
         auto p1 = prevPoint + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
         auto p2 = prevPoint + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
+        auto p3 = point + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
+        auto p4 = point + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
         
-        positions.push_back(vec3(p1, 0.5f));
-        positions.push_back(vec3(p2, 0.5f));
+        positions.push_back(vec3(p1, 0.0f));
+        positions.push_back(vec3(p2, 0.0f));
+        positions.push_back(vec3(p3, 0.0f));
+        positions.push_back(vec3(p4, 0.0f));
     }
     
 	// 1. create vao

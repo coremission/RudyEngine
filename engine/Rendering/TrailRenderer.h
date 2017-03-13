@@ -21,6 +21,7 @@ public:
 	explicit TrailRenderer(GameObject* gameObject);
 	virtual ~TrailRenderer() override;
 	virtual void render() const override;
+	std::shared_ptr<BaseMesh> createMesh();
 };
 
 #endif //TRAILRENDERER_h

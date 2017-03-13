@@ -4,25 +4,34 @@
 #include "rendering.hpp"
 #include <Model/GameObject.h>
 
+class TrailMesh : public BaseMesh {
+public:
+	GLuint vbo;
+	typedef glm::vec3 MeshData;
+	std::vector<MeshData> data;
+
+	TrailMesh(std::vector<glm::vec2> _points);
+	~TrailMesh();
+};
+
 struct TrailMaterialTraits {
 	static constexpr const char* ShaderProgramName = "trail_renderer_shader_prog";
-    // todo: such name works for Mac OSX, need to check on Windows
 	static constexpr const char* VertexShaderPath = "shaders/Vertex.glsl";
 	static constexpr const char* FragmentShaderPath = "shaders/Fragment.glsl";
 	typedef float PerVertexData;
 	typedef std::vector<PerVertexData> MeshData;
-	typedef Mesh<PerVertexData> Mesh;
+	typedef TrailMesh Mesh;
 };
 
-class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits>
-{
+class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {
 	friend class Renderer<TrailRenderer, TrailMaterialTraits>;
 	GameObject* gameObject;
 public:
 	explicit TrailRenderer(GameObject* gameObject);
 	virtual ~TrailRenderer() override;
 	virtual void render() const override;
-	std::shared_ptr<BaseMesh> createMesh();
+	std::shared_ptr<TrailMesh> createMesh();
+	virtual void update();
 };
 
 #endif //TRAILRENDERER_h

@@ -1,6 +1,51 @@
 #include "TrailRenderer.h"
 #include <iostream>
 
+TrailMesh::TrailMesh(std::vector<glm::vec2> lineData):
+	vbo(0)
+{
+	using namespace glm;
+
+	// fill positions
+	for (int i = 1; i < lineData.size(); ++i) {
+		auto point = lineData[i];
+		auto prevPoint = lineData[i - 1];
+
+		auto _vector = point - prevPoint;
+		auto p1 = prevPoint + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
+		auto p2 = prevPoint + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
+		auto p3 = point + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
+		auto p4 = point + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
+
+		data.push_back(vec3(p1, 0.0f));
+		data.push_back(vec3(p2, 0.0f));
+		data.push_back(vec3(p3, 0.0f));
+		data.push_back(vec3(p4, 0.0f));
+	}
+
+	// 1. create vao
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	// 2. create vbo for vertex data
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	// 3. fill data
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * data.size(), &data[0], GL_DYNAMIC_COPY);
+
+	// 4. bind attributes
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), 0);
+	glEnableVertexAttribArray(0);
+
+	glBindVertexArray(0);
+}
+
+TrailMesh::~TrailMesh()
+{
+	std::cout << "delete trail mesh" << vao << std::endl;
+	glDeleteVertexArrays(1, &vao);
+}
+
 TrailRenderer::TrailRenderer(GameObject* _gameObject):
 	Renderer(createMesh()), // triangle strip mesh
 	gameObject(_gameObject)
@@ -21,18 +66,15 @@ void TrailRenderer::render() const
 
 	// 3. draw triangle strip
     // draw line for a while
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 16);
     
-    glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-    
-    //glDrawArrays(GL_LINES, 0, 6);
-    
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render" << std::endl;
 }
 
-std::shared_ptr<BaseMesh> TrailRenderer::createMesh()
+std::shared_ptr<TrailMesh> TrailRenderer::createMesh()
 {
     using namespace glm;
     
@@ -46,41 +88,21 @@ std::shared_ptr<BaseMesh> TrailRenderer::createMesh()
     };
 	std::vector<vec3> positions;
     
-    // fill positions
-    for(int i = 1; i < lineData.size(); ++i) {
-        auto point = lineData[i];
-        auto prevPoint = lineData[i - 1];
-        
-        auto _vector = point - prevPoint;
-        auto p1 = prevPoint + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
-        auto p2 = prevPoint + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
-        auto p3 = point + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
-        auto p4 = point + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
-        
-        positions.push_back(vec3(p1, 0.0f));
-        positions.push_back(vec3(p2, 0.0f));
-        positions.push_back(vec3(p3, 0.0f));
-        positions.push_back(vec3(p4, 0.0f));
-    }
-    
-	// 1. create vao
-	GLuint vao = 0;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	// 2. create vbo for vertex data
-	GLuint vbo = 0;
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	// 3. fill data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * positions.size(), &positions[0], GL_STATIC_DRAW);
-
-	// 4. bind attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), 0);
-	glEnableVertexAttribArray(0);
-
-	glBindVertexArray(0);
-	auto result = std::make_shared<BaseMesh>(vao);
+    auto result = std::make_shared<TrailMesh>(lineData);
 
 	return result;
+}
+
+void TrailRenderer::update()
+{
+	using namespace glm;
+
+	for(auto p: mesh->data)
+	{
+		p += vec3(0.5f, 0, 0);
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

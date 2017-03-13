@@ -14,7 +14,7 @@ struct SkyboxMaterialTraits {
 	// skybox is simple positions-only mesh (here must be glm::vec3);
 	typedef glm::vec3 PerVertexData;
 	typedef std::vector<PerVertexData> MeshData;
-	typedef Mesh<PerVertexData> Mesh;
+	typedef BaseMesh Mesh;
 };
 
 class SkyboxRenderer : public Renderer<SkyboxRenderer, SkyboxMaterialTraits> {

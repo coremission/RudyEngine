@@ -9,6 +9,7 @@
 class IRenderer {
 public:
 	virtual void render() const {};
+	virtual void update() {};
 	virtual ~IRenderer() = default;
 };
 
@@ -30,12 +31,12 @@ template<typename DerivedRenderer, typename Traits>
 class Renderer : public IRenderer {
 protected:
 	typename Traits::MeshData meshData;
-	std::shared_ptr<BaseMesh> mesh;
+	std::shared_ptr<typename Traits::Mesh> mesh;
 	std::shared_ptr<ShaderProgram> shaderProgram;
 
 	constexpr DerivedRenderer* derived() { return static_cast<DerivedRenderer*>(this); }
 	// constructor
-	Renderer(std::shared_ptr<BaseMesh>);
+	Renderer(std::shared_ptr<typename Traits::Mesh>);
 public:
 	virtual void render() const override {
 		// 1. bind mesh to context (bind VAO)
@@ -52,7 +53,7 @@ public:
 /////////////////////////////////// TEMPLATE DEFINITIONS///////////////////////////////////////////////////
 
 template <typename DerivedRenderer, typename Traits>
-Renderer<DerivedRenderer, Traits>::Renderer(std::shared_ptr<BaseMesh> _mesh):
+Renderer<DerivedRenderer, Traits>::Renderer(std::shared_ptr<typename Traits::Mesh> _mesh):
 	// 1. Load mesh
 	mesh(_mesh),
 	// 2. Load shader program

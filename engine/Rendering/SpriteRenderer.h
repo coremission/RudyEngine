@@ -12,7 +12,7 @@ struct SpriteMaterialTraits {
 	static constexpr const char * FragmentShaderPath = "Shaders\\Fragment.glsl";
 	typedef float PerVertexData;
 	typedef std::vector<PerVertexData> MeshData;
-	typedef Mesh<PerVertexData> Mesh;
+	typedef BaseMesh Mesh;
 };
 
 class SpriteRenderer: public Renderer<SpriteRenderer, SpriteMaterialTraits>

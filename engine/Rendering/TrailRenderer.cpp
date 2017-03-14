@@ -4,6 +4,7 @@
 TrailMesh::TrailMesh(std::vector<glm::vec2> lineData):
 	vbo(0)
 {
+    constexpr float TrailWidth = 0.01f;
 	using namespace glm;
 
 	// fill positions
@@ -12,10 +13,10 @@ TrailMesh::TrailMesh(std::vector<glm::vec2> lineData):
 		auto prevPoint = lineData[i - 1];
 
 		auto _vector = point - prevPoint;
-		auto p1 = prevPoint + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
-		auto p2 = prevPoint + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
-		auto p3 = point + normalize(vec2(-_vector.y, _vector.x)) * 0.1f;
-		auto p4 = point + normalize(vec2(_vector.y, -_vector.x)) * 0.1f;
+		auto p1 = prevPoint + normalize(vec2(-_vector.y, _vector.x)) * TrailWidth;
+		auto p2 = prevPoint + normalize(vec2(_vector.y, -_vector.x)) * TrailWidth;
+		auto p3 = point + normalize(vec2(-_vector.y, _vector.x)) * TrailWidth;
+		auto p4 = point + normalize(vec2(_vector.y, -_vector.x)) * TrailWidth;
 
 		data.push_back(vec3(p1, 0.0f));
 		data.push_back(vec3(p2, 0.0f));
@@ -31,13 +32,14 @@ TrailMesh::TrailMesh(std::vector<glm::vec2> lineData):
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	// 3. fill data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * data.size(), &data[0], GL_DYNAMIC_COPY);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * data.size(), &data[0], GL_DYNAMIC_DRAW);
 
 	// 4. bind attributes
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), 0);
 	glEnableVertexAttribArray(0);
 
 	glBindVertexArray(0);
+    std::cout << "mesh vbo " << vbo << " created" << std::endl;
 }
 
 TrailMesh::~TrailMesh()
@@ -68,7 +70,7 @@ void TrailRenderer::render() const
     // draw line for a while
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 16);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render" << std::endl;
@@ -99,10 +101,17 @@ void TrailRenderer::update()
 
 	for(auto p: mesh->data)
 	{
-		p += vec3(0.5f, 0, 0);
+        //std::cout << p.x << " -> ";
+		p += vec3(0.05f, 0.05f, 0);
+        //std::cout << p.x;
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
+    
+    //glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    std::cout << "update mesh vbo " << mesh->vbo << std::endl;
 }

@@ -111,6 +111,7 @@ void Application::drawGameObject(GameObject& gameObject)
 	if (!gameObject.renderer)
 		return;
 
+    gameObject.renderer->update();
 	gameObject.renderer->render();
 }
 

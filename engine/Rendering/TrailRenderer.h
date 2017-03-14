@@ -31,7 +31,7 @@ public:
 	virtual ~TrailRenderer() override;
 	virtual void render() const override;
 	std::shared_ptr<TrailMesh> createMesh();
-	virtual void update();
+	virtual void update() override;
 };
 
 #endif //TRAILRENDERER_h

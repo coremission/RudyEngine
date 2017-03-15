@@ -1,4 +1,4 @@
-﻿#ifndef MESH_h
+#ifndef MESH_h
 #define MESH_h
 
 #include "rendering.hpp"
@@ -29,4 +29,4 @@ public:
 	bool isIndexed() const { return indexedMesh; }
 };
 
-#endif MESH_h
+#endif//MESH_h

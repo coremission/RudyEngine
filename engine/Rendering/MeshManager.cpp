@@ -5,11 +5,11 @@
 using namespace std;
 using namespace glm;
 
-constexpr char * const QUAD_MESH_ID = "rudy_quad";
-constexpr char * const SPRITE_QUAD_MESH_ID = "rudy_sprite_quad";
-constexpr char * const CUBEMAP_MESH_ID = "rudy_cubemap_mesh";
-constexpr char * const INDEXED_QUAD_MESH_ID = "indexed_cube_mesh";
-constexpr char * const SKYBOX_CUBE_MESH_ID = "indexed_skybox_mesh";
+constexpr char* const QUAD_MESH_ID = "rudy_quad";
+constexpr char* const SPRITE_QUAD_MESH_ID = "rudy_sprite_quad";
+constexpr char* const CUBEMAP_MESH_ID = "rudy_cubemap_mesh";
+constexpr char* const INDEXED_QUAD_MESH_ID = "indexed_cube_mesh";
+constexpr char* const SKYBOX_CUBE_MESH_ID = "indexed_skybox_mesh";
 
 std::map<std::string, std::shared_ptr<LegacyMesh>> MeshManager::meshMap;
 

@@ -99,19 +99,23 @@ void TrailRenderer::update()
 {
 	using namespace glm;
 
-	for(auto p: mesh->data)
+    // 1. Get current gameObject position
+    
+    // 2. Compare with previously stored position
+    
+    // 3. if > threshold emit trail point
+    
+    // 4. adjust last segment to gameobject position (trail always must begin right behind gameobject)
+    
+    // 4. make smother angles
+    // Step 5. Recalculate vbo data
+    /*
+    for(auto& p: mesh->data)
 	{
-        //std::cout << p.x << " -> ";
-		p += vec3(0.05f, 0.05f, 0);
-        //std::cout << p.x;
 	}
-
+    
     glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
-    
-    //glBufferData(GL_ARRAY_BUFFER, 0, nullptr, GL_DYNAMIC_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
-	
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
-    std::cout << "update mesh vbo " << mesh->vbo << std::endl;
+    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    */
 }

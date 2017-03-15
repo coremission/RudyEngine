@@ -18,4 +18,4 @@ private:
 	void operator=(const Component&);
 };
 
-#endif BEHAVIOUR_h
+#endif //BEHAVIOUR_h

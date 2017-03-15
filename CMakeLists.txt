@@ -32,7 +32,7 @@ target_link_libraries(breakout engine)
 set(TESTS_DIR tests)
 # Renderering tests
 set(RENDERING_TESTS_DIR ${TESTS_DIR}/renderingTestFixture)
-add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp)
+add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp ${RENDERING_TESTS_DIR}/BallBehaviour.cpp)
 set_target_properties(renderingTest PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(renderingTest engine)
 add_custom_command(TARGET renderingTest PRE_BUILD

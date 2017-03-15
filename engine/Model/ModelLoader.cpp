@@ -82,8 +82,9 @@ shared_ptr<LegacyMesh> ModelLoader::processMesh(const string& meshId, aiMesh* ai
 			indices.push_back(face.mIndices[j]);
 	}
 	// Process material
-	if (aiMesh_->mMaterialIndex >= 0) {
-	}
+    // don't know what is it
+	//if (aiMesh_->mMaterialIndex >= 0) {
+	//}
 
 	return MeshManager::registerMesh(meshId, vertices, indices);
 }

@@ -1,4 +1,6 @@
+#include "BallBehaviour.h"
 #include <Rendering/Camera.h>
+#include <Rendering/SpriteRenderer.h>
 #include <Application.h>
 #include <System/system.hpp>
 
@@ -14,8 +16,10 @@ void setUpScene();
 int main(int argc, char **argv)
 {
 	_do(argc, argv);
-	cout << endl << "Press any key to exit..." << endl;
-	cin.get();
+    
+    // todo: disabled for a while
+	//cout << endl << "Press any key to exit..." << endl;
+	//cin.get();
 
 	return 0;
 }
@@ -38,7 +42,19 @@ void _do(int argc, char **argv) {
 }
 
 void setUpScene() {
-	GameObject* tempGo = new GameObject("temp");
+    // BALL
+    GameObject* ball = new GameObject("ball");
+    BallBehaviour* ballBehaviour = new BallBehaviour(ball);
+    ball->AddComponent<BallBehaviour>(ballBehaviour);
+    // create renderer
+    ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
+
+    GameObject* tempGo = new GameObject("temp");
 	tempGo->renderer = make_unique<TrailRenderer>(tempGo);
 	tempGo->renderer->update();
+    
+    // TODO: add camera
+    // CAMERA
+    GameObject* camera = new GameObject("camera");
+    camera->AddComponent<Camera>();
 }

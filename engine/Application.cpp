@@ -90,8 +90,9 @@ void Application::renderScene() {
 	Time::updateClock();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	auto mainCamera = Camera::getMainCamera();
-	if(mainCamera != nullptr)
-		mainCamera->clearWithSkybox();
+    // todo: Clear method must be defined within Camera itself (with solid color, skybox or no clear)
+	//if(mainCamera != nullptr)
+	//	mainCamera->clearWithSkybox();
 
 	//
 	for(auto it = scene->begin(); it != scene->end(); ++it)

@@ -21,6 +21,9 @@ private:
 public:
 	glm::vec3 getLocalPosition() const { return localPosition; };
 	void setLocalPosition(glm::vec3);
+	
+	/* Returns world position of transform */
+	glm::vec3 getPosition() const;
 
 	glm::quat getLocalRotation() const { return localRotation; }
 	glm::quat getRotation() const;
@@ -39,7 +42,7 @@ public:
 	const glm::mat4& getLocalToWorldMatrix() const;
 	const glm::mat4& getWorldToLocalMatrix() const;
 
-	glm::vec3 transformPoint(glm::vec3);
+	glm::vec3 transformPoint(glm::vec3) const;
 	glm::vec3 inverseTransformPoint(glm::vec3);
 	glm::vec3 transformDirection(glm::vec3);
 	glm::vec3 inverseTransformDirection(glm::vec3);

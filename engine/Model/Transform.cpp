@@ -40,6 +40,11 @@ void Transform::setLocalPosition(vec3 value)
 	recalculateMatrices();
 }
 
+glm::vec3 Transform::getPosition() const
+{
+	return transformPoint(vec3(0, 0, 0));
+}
+
 glm::quat Transform::getRotation() const
 {
 	recalculateMatrices();
@@ -91,7 +96,7 @@ const glm::mat4& Transform::getWorldToLocalMatrix() const
 	return worldToLocalMatrix;
 }
 
-glm::vec3 Transform::transformPoint(glm::vec3 p)
+glm::vec3 Transform::transformPoint(glm::vec3 p) const
 {
 	return vec3(getLocalToWorldMatrix() * vec4(p, 1.0f));
 }

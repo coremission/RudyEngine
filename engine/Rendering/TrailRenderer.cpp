@@ -70,7 +70,7 @@ void TrailRenderer::render() const
     // draw line for a while
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh->data.size());
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render" << std::endl;
@@ -98,10 +98,13 @@ std::shared_ptr<TrailMesh> TrailRenderer::createMesh()
 void TrailRenderer::update()
 {
 	using namespace glm;
-
+	
     // 1. Get current gameObject position
-    
-    // 2. Compare with previously stored position
+	auto objPos = gameObject->transform->getPosition();
+
+	std::cout << "upd " << objPos.x << std::endl;
+	mesh->data[0] = objPos;
+	// 2. Compare with previously stored position
     
     // 3. if > threshold emit trail point
     
@@ -109,13 +112,13 @@ void TrailRenderer::update()
     
     // 4. make smother angles
     // Step 5. Recalculate vbo data
-    /*
+    
+	/*
     for(auto& p: mesh->data)
 	{
 	}
-    
+    */
     glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-    */
 }

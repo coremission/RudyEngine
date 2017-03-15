@@ -102,9 +102,6 @@ void Application::renderScene() {
 		// Component::Update();
 		it->second->Update();
 	}
-	
-	//glutSwapBuffers();
-	//glutPostRedisplay();
 }
 
 void Application::drawGameObject(GameObject& gameObject)

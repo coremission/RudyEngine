@@ -51,7 +51,7 @@ void setUpScene() {
 
     GameObject* tempGo = new GameObject("temp");
 	tempGo->transform->setParent(ball->transform.get());
-	tempGo->renderer = make_unique<TrailRenderer>(tempGo, 4);
+	tempGo->renderer = make_unique<TrailRenderer>(tempGo, 50);
     
     // TODO: add camera
     // CAMERA

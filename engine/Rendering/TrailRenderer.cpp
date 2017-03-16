@@ -1,6 +1,8 @@
 #include "TrailRenderer.h"
 #include <iostream>
 
+constexpr int VerticesPerSegment = 2;
+
 TrailMesh::TrailMesh(size_t size):
 	vbo(0)
 {
@@ -57,14 +59,14 @@ void TrailRenderer::render() const {
     // draw line for a while
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render" << std::endl;
 }
 
 std::shared_ptr<TrailMesh> TrailRenderer::createMesh(size_t size) {
-	auto result = std::make_shared<TrailMesh>(size * 4);
+	auto result = std::make_shared<TrailMesh>(size * VerticesPerSegment);
 	return result;
 }
 
@@ -75,9 +77,7 @@ void TrailRenderer::update() {
 	auto objPos = vec2(gameObject->transform->getPosition());
 
 	// 2. Compare with previously stored position
-	if (length(objPos - segments[1]) > 0.05f) {
-		std::cout << "emit " << usedSegmentsCount << std::endl;
-
+	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > 0.18f) {
 		usedSegmentsCount = min(++usedSegmentsCount, maxSegmentsCount);
 		// 2.1 shift positions and forget last
 		for (int i = segments.size() - 1; i > 0; --i)
@@ -99,31 +99,33 @@ void TrailRenderer::update() {
 
 void TrailRenderer::updateMeshData() {
 	using namespace glm;
-	constexpr float TrailWidth = 0.01f;
+	constexpr float TrailWidth = 0.1f;
 
 	// fill positions
-    std::cout << "used: " << usedSegmentsCount << " total segments: " << segments.size() << " data size: " << mesh->data.size() << std::endl;
-    for (int i = 1; i < segments.size(); ++i) {
+	for (int i = 0; i < segments.size(); ++i) {
+		bool isLastPoint = i == segments.size() - 1;
 		auto point = segments[i];
-		auto prevPoint = segments[i - 1];
+		int index = isLastPoint ? i - 1 : i + 1;
+		auto nextPoint = segments[index];
 
-        std::cout << "- point: " << point.x << " prev" << prevPoint.x << std::endl;
-		auto _vector = point - prevPoint;
-		auto p1 = prevPoint + normalize(vec2(-_vector.y, _vector.x)) * TrailWidth;
-		auto p2 = prevPoint + normalize(vec2(_vector.y, -_vector.x)) * TrailWidth;
-		auto p3 = point + normalize(vec2(-_vector.y, _vector.x)) * TrailWidth;
-		auto p4 = point + normalize(vec2(_vector.y, -_vector.x)) * TrailWidth;
+		auto _vector = point - nextPoint;
+		float segmentWidth = TrailWidth * ((segments.size() - i) / static_cast<float>(segments.size()));
+		auto p1 = point + normalize(vec2(-_vector.y, _vector.x)) * segmentWidth;
+		auto p2 = point + normalize(vec2(_vector.y, -_vector.x)) * segmentWidth;
 
-		size_t meshIndex = 4 * (i - 1); // last point is not update with such loop expressions
-		mesh->data[meshIndex] = vec3(p1, 0.0f);
-		mesh->data[meshIndex + 1] = vec3(p2, 0.0f);
-		mesh->data[meshIndex + 2] = vec3(p3, 0.0f);
-		mesh->data[meshIndex + 3] = vec3(p4, 0.0f);
-        
-        std::cout << "- " << i << " :" << p1.x << ", " << p2.x << ", " << p3.x << ", " << p4.x << " " << std::endl;
+		size_t meshIndex = VerticesPerSegment * i;
+		
+		if (!isLastPoint) {
+			mesh->data[meshIndex] = vec3(p1, 0.0f);
+			mesh->data[meshIndex + 1] = vec3(p2, 0.0f);
+		}
+		else { // must be flipped for last segment to get close 'ribbon'
+			mesh->data[meshIndex] = vec3(p2, 0.0f);
+			mesh->data[meshIndex + 1] = vec3(p1, 0.0f);
+		}
 	}
-    std::cout << std::endl;
     
+
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

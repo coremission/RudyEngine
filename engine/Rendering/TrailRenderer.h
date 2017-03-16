@@ -10,7 +10,7 @@ public:
 	typedef glm::vec3 MeshData;
 	std::vector<MeshData> data;
 
-	TrailMesh(std::vector<glm::vec2> _points);
+	TrailMesh(size_t size);
 	~TrailMesh();
 };
 
@@ -26,12 +26,16 @@ struct TrailMaterialTraits {
 class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {
 	friend class Renderer<TrailRenderer, TrailMaterialTraits>;
 	GameObject* gameObject;
+	int maxSegmentsCount;
+	int usedSegmentsCount;
+	std::vector<glm::vec2> segments;
 public:
-	explicit TrailRenderer(GameObject* gameObject);
+	explicit TrailRenderer(GameObject* gameObject, int _segmentsCount);
 	virtual ~TrailRenderer() override;
 	virtual void render() const override;
-	std::shared_ptr<TrailMesh> createMesh();
+	std::shared_ptr<TrailMesh> createMesh(size_t size);
 	virtual void update() override;
+	void updateMeshData();
 };
 
 #endif //TRAILRENDERER_h

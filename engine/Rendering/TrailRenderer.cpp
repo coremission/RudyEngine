@@ -119,7 +119,7 @@ void TrailRenderer::updateMeshData() {
 			mesh->data[meshIndex] = vec3(p1, 0.0f);
 			mesh->data[meshIndex + 1] = vec3(p2, 0.0f);
 		}
-		else { // must be flipped for last segment to get close 'ribbon'
+		else { // must be flipped for last segment to get nicely closed last segment 'ribbon'
 			mesh->data[meshIndex] = vec3(p2, 0.0f);
 			mesh->data[meshIndex + 1] = vec3(p1, 0.0f);
 		}

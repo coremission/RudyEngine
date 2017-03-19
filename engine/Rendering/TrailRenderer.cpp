@@ -76,7 +76,7 @@ void TrailRenderer::update() {
     // 1. Get current gameObject position
 	auto objPos = vec2(gameObject->transform->getPosition());
 
-	// 2. Compare with previously stored position
+	// 2. Compare with previously stored position (emit new segment)
 	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > 0.18f) {
 		usedSegmentsCount = min(++usedSegmentsCount, maxSegmentsCount);
 		// 2.1 shift positions and forget last
@@ -86,14 +86,12 @@ void TrailRenderer::update() {
 
 	// 3. First segment is always sticked to gameObject
 	segments[0] = objPos;
-		
-    // 3. if > threshold emit trail point
-    
-    // 4. adjust last segment to gameobject position (trail always must begin right behind gameobject)
-    
-    // 4. make smother angles
-    
-    // Step 5. Recalculate vbo data
+
+	// 4. make smoother angles
+
+	// 5. fade out trail
+
+    // 6. Recalculate vbo data
     updateMeshData();
 }
 

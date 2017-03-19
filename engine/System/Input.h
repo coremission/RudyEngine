@@ -30,7 +30,8 @@ public:
 		A = GLFW_KEY_A,
 		W = GLFW_KEY_W,
 		S = GLFW_KEY_S,
-		D = GLFW_KEY_D
+		D = GLFW_KEY_D,
+		SPACE = GLFW_KEY_SPACE,
 	};
 };
 #endif //INPUT_h

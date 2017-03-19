@@ -4,13 +4,17 @@
 
 BallBehaviour::BallBehaviour(GameObject* _gameObject)
 	:Component(_gameObject),
-	radius(0),
-	velocity({0, 0})
+	velocity({0, 0}),
+	radius(0)
 {
 }
 
 void BallBehaviour::Update()
 {
+	if(Input::checkIfKeyPressed(KeyCodes::SPACE)) {
+		return;
+	}
+
 	gameObject->transform->setLocalPosition(position() + glm::vec3(velocity.x, velocity.y, 0));
 
 	if (left() < -1 || right() > 1)

@@ -90,7 +90,20 @@ void TrailRenderer::update() {
 	// 4. make smoother angles
 
 	// 5. fade out trail
+	if (usedSegmentsCount > 2) {
+		auto& lastSegmentPos = segments[usedSegmentsCount];
+		auto preLastSegmentPos = segments[usedSegmentsCount - 1];
 
+		auto lastSegmentVector = preLastSegmentPos - lastSegmentPos;
+		float segmentLength = length(lastSegmentVector);
+		constexpr float fadeOutSpeed = 0.01f;
+		if(segmentLength < fadeOutSpeed) {
+			--usedSegmentsCount;
+		}
+		else {
+			lastSegmentPos += normalize(lastSegmentVector) * fadeOutSpeed;
+		}
+	}
     // 6. Recalculate vbo data
     updateMeshData();
 }
@@ -100,6 +113,8 @@ void TrailRenderer::updateMeshData() {
 	constexpr float TrailWidth = 0.1f;
 
 	// fill positions
+
+	// todo: maybe i < usedSegmentsCount will be good here
 	for (int i = 0; i < segments.size(); ++i) {
 		bool isLastPoint = i == segments.size() - 1;
 		auto point = segments[i];

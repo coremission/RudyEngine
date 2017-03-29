@@ -49,6 +49,7 @@ TrailRenderer::~TrailRenderer()
 }
 
 void TrailRenderer::render() const {
+    // there must be at least 2 segments to get something drawable
 	if (usedSegmentsCount < 2)
 		return;
 
@@ -89,10 +90,8 @@ void TrailRenderer::update() {
 
 	// 3. First segment is always sticked to gameObject
 	segments[0] = objPos;
-
-	// 4. make smoother angles
-
-	// 5. fade out trail
+    
+	// 4. fade out trail
 	if (usedSegmentsCount > 1) {
 		auto& lastSegmentPos = segments[usedSegmentsCount - 1];
 		auto preLastSegmentPos = segments[usedSegmentsCount - 2];
@@ -107,6 +106,19 @@ void TrailRenderer::update() {
 			lastSegmentPos += normalize(lastSegmentVector) * fadeOutSpeed;
 		}
 	}
+    
+    // 5. make smoother angles
+    constexpr float smoothFactor = 0.05f;
+    
+    for(int i = 0; i < usedSegmentsCount - 2 && i < segments.size() - 2; ++i) {
+        auto& first = segments[i];
+        auto& second = segments[i + 1];
+        auto& third = segments[i + 2];
+        
+        auto middle = (first + third) * 0.5f;
+        second = (1 - smoothFactor) * second + smoothFactor * middle;
+    }
+
     // 6. Recalculate vbo data
     updateMeshData();
 }

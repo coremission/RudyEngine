@@ -123,6 +123,10 @@ void TrailRenderer::update() {
     updateMeshData();
 }
 
+
+/*
+ todo: This logic can be implemented on GPU side with Vertex shader with instance data array as for particles
+ */
 void TrailRenderer::updateMeshData() {
 	using namespace glm;
 	constexpr float TrailWidth = 0.1f;

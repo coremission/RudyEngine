@@ -29,12 +29,12 @@ target_link_libraries(breakout engine)
 ###############################################################################
 ####################### T E S T S #############################################
 ###############################################################################
-set(TESTS_DIR tests)
+set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
 # Renderering tests
 set(RENDERING_TESTS_DIR ${TESTS_DIR}/renderingTestFixture)
 add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp ${RENDERING_TESTS_DIR}/BallBehaviour.cpp)
 set_target_properties(renderingTest PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(renderingTest engine)
-add_custom_command(TARGET renderingTest PRE_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_directory
-                ${RENDERING_TESTS_DIR}/shaders $<TARGET_FILE_DIR:renderingTest>/shaders)
+
+add_custom_command(TARGET renderingTest POST_BUILD
+ COMMAND ${CMAKE_COMMAND} -E copy_directory ${RENDERING_TESTS_DIR}/shaders $<TARGET_FILE_DIR:renderingTest>/shaders)

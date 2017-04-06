@@ -7,8 +7,10 @@
 class TrailMesh : public BaseMesh {
 public:
 	GLuint vbo;
-	typedef glm::vec3 MeshData;
-	std::vector<MeshData> data;
+    struct MeshDataType{
+        glm::vec3 position;
+    };
+	std::vector<MeshDataType> data;
 
 	TrailMesh(size_t size);
 	~TrailMesh();

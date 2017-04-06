@@ -38,3 +38,6 @@ target_link_libraries(renderingTest engine)
 
 add_custom_command(TARGET renderingTest POST_BUILD
  COMMAND ${CMAKE_COMMAND} -E copy_directory ${RENDERING_TESTS_DIR}/shaders $<TARGET_FILE_DIR:renderingTest>/shaders)
+
+add_custom_command(TARGET renderingTest POST_BUILD
+ COMMAND ${CMAKE_COMMAND} -E copy_directory ${RENDERING_TESTS_DIR}/sprites $<TARGET_FILE_DIR:renderingTest>/sprites)

@@ -17,7 +17,7 @@ TrailMesh::TrailMesh(size_t size):
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	// 3. fill data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vec3) * data.size(), &data[0], GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshDataType) * data.size(), &data[0], GL_STREAM_DRAW);
 
 	// 4. bind attributes
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), 0);
@@ -146,12 +146,12 @@ void TrailRenderer::updateMeshData() {
 		size_t meshIndex = VerticesPerSegment * i;
 		
 		if (!isLastPoint) {
-			mesh->data[meshIndex] = vec3(p1, 0.0f);
-			mesh->data[meshIndex + 1] = vec3(p2, 0.0f);
+			mesh->data[meshIndex].position = vec3(p1, 0.0f);
+			mesh->data[meshIndex + 1].position = vec3(p2, 0.0f);
 		}
 		else { // must be flipped for last segment to get nicely closed last segment 'ribbon'
-			mesh->data[meshIndex] = vec3(p2, 0.0f);
-			mesh->data[meshIndex + 1] = vec3(p1, 0.0f);
+			mesh->data[meshIndex].position = vec3(p2, 0.0f);
+			mesh->data[meshIndex + 1].position = vec3(p1, 0.0f);
 		}
 	}
     

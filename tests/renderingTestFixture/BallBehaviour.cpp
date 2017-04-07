@@ -27,7 +27,7 @@ void BallBehaviour::Start()
 {
 	velocity = { 0.021f, 0.01f };
 	radius = 0.02f;
-	gameObject->transform->setLocalScale(glm::vec3(1, 1, 1));
+	gameObject->transform->setLocalScale(glm::vec3(radius, radius, 1));
 }
 
 void BallBehaviour::negativeVelocityY()

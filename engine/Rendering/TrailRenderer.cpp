@@ -73,12 +73,10 @@ void TrailRenderer::render() const {
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // 4. uniforms
-    glm::mat4 modelingMatrix = gameObject->transform->getLocalToWorldMatrix();
     glm::mat4 viewProjectionMatrix = Camera::getMainCamera()->getViewProjectionMatrix();
-    
-    glm::mat4 mvpMatrix = viewProjectionMatrix * modelingMatrix;
-    
-    rudy::setUniformMat4(shaderProgram->programId(), "Model2Projection", mvpMatrix);
+	// todo: matrix name in shader must be renamed to ViewProjection
+	// todo: shader file must be renamed to TrailVertex
+    rudy::setUniformMat4(shaderProgram->programId(), "Model2Projection", viewProjectionMatrix);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

@@ -41,15 +41,15 @@ void setUpScene() {
     BallBehaviour* ballBehaviour = new BallBehaviour(ball);
     ball->AddComponent<BallBehaviour>(ballBehaviour);
     // create renderer
-    //ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
+    ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
 
     GameObject* trail = new GameObject("trail");
 	trail->transform->setParent(ball->transform.get());
 	trail->renderer = make_unique<TrailRenderer>(trail, 50);
     
-    // TODO: add camerab
+    // TODO: add camera
     // CAMERA
     GameObject* camera = new GameObject("camera");
-    camera->transform->setLocalPosition(glm::vec3(0, 0, 4));
+    camera->transform->setLocalPosition(glm::vec3(0, 0, 5));
     camera->AddComponent<Camera>();
 }

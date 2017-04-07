@@ -28,6 +28,7 @@ TrailMesh::TrailMesh(size_t size):
 
 	// 4. bind attributes
     bindAttribute(0, 3, GL_FLOAT, false, attribOffset(position));
+    bindAttribute(1, 4, GL_FLOAT, false, attribOffset(color));
     
 	glBindVertexArray(0);
     std::cout << "mesh vbo " << vbo << " created" << std::endl;
@@ -153,7 +154,7 @@ void TrailRenderer::updateMeshData() {
 		
 		if (!isLastPoint) {
 			mesh->data[meshIndex].position = vec3(p1, 0.0f);
-			mesh->data[meshIndex + 1].position = vec3(p2, 0.0f);
+            mesh->data[meshIndex + 1].position = vec3(p2, 0.0f);
 		}
 		else { // must be flipped for last segment to get nicely closed last segment 'ribbon'
 			mesh->data[meshIndex].position = vec3(p2, 0.0f);

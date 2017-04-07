@@ -9,6 +9,7 @@ public:
 	GLuint vbo;
     struct MeshDataType{
         glm::vec3 position;
+        glm::vec4 color;
     };
 	std::vector<MeshDataType> data;
 

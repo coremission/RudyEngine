@@ -1,4 +1,6 @@
 #include "TrailRenderer.h"
+#include "Camera.h"
+
 #include <iostream>
 
 #define attribOffset(field) (reinterpret_cast<void *>(offsetof(TrailMesh::MeshDataType, field)))
@@ -70,7 +72,14 @@ void TrailRenderer::render() const {
     // draw line for a while
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
+    // 4. uniforms
+    glm::mat4 modelingMatrix = gameObject->transform->getLocalToWorldMatrix();
+    glm::mat4 viewProjectionMatrix = Camera::getMainCamera()->getViewProjectionMatrix();
+    
+    glm::mat4 mvpMatrix = viewProjectionMatrix * modelingMatrix;
+    
+    rudy::setUniformMat4(shaderProgram->programId(), "Model2Projection", mvpMatrix);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render" << std::endl;

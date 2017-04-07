@@ -4,6 +4,7 @@
 #include "ShaderProgram.h"
 #include <vector>
 #include <memory>
+#include <glm/glm.hpp>
 
 // Basic interface to Use in GameObject
 class IRenderer {
@@ -62,4 +63,7 @@ Renderer<DerivedRenderer, Traits>::Renderer(std::shared_ptr<typename Traits::Mes
 	// 3. Validate shader program (IF DEBUG)
 }
 
+namespace rudy {
+    void setUniformMat4(GLuint program, const std::string& name, glm::mat4 value);
+}
 #endif //RUDY_RENDERING_HPP

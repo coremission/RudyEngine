@@ -1,7 +1,14 @@
 #include "TrailRenderer.h"
 #include <iostream>
 
+#define attribOffset(field) (reinterpret_cast<void *>(offsetof(TrailMesh::MeshDataType, field)))
 constexpr int VerticesPerSegment = 2;
+
+void bindAttribute(GLuint location, size_t size, int type, bool doNormalize, void* offset)
+{
+    glVertexAttribPointer(location, size, type, doNormalize ? GL_TRUE : GL_FALSE, sizeof(TrailMesh::MeshDataType), offset);
+    glEnableVertexAttribArray(location);
+}
 
 TrailMesh::TrailMesh(size_t size):
 	vbo(0)
@@ -20,9 +27,8 @@ TrailMesh::TrailMesh(size_t size):
 	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshDataType) * data.size(), &data[0], GL_STREAM_DRAW);
 
 	// 4. bind attributes
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vec3), 0);
-	glEnableVertexAttribArray(0);
-
+    bindAttribute(0, 3, GL_FLOAT, false, attribOffset(position));
+    
 	glBindVertexArray(0);
     std::cout << "mesh vbo " << vbo << " created" << std::endl;
 }

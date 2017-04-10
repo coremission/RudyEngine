@@ -33,12 +33,12 @@ TrailMesh::TrailMesh(size_t size):
     bindAttribute(1, 4, GL_FLOAT, false, attribOffset(color));
     
 	glBindVertexArray(0);
-    std::cout << "mesh vbo " << vbo << " created" << std::endl;
+    std::cout << "mesh vbo: " << vbo << " created" << std::endl;
 }
 
 TrailMesh::~TrailMesh()
 {
-	std::cout << "delete trail mesh" << vao << std::endl;
+	std::cout << "mesh vbo deleted: " << vao << std::endl;
 	glDeleteVertexArrays(1, &vao);
 }
 
@@ -152,8 +152,8 @@ void TrailRenderer::updateMeshData() {
 		auto deltaVector = point - nextPoint;
         
 		float segmentWidth = TrailWidth * ((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
-		auto p1 = point + normalize(vec3(-deltaVector.y, deltaVector.x, 0)) * segmentWidth;
-		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, 0)) * segmentWidth;
+		auto p1 = point + normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
+		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
 
 		size_t meshIndex = VerticesPerSegment * i;
 		

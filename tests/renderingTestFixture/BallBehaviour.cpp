@@ -4,7 +4,7 @@
 
 BallBehaviour::BallBehaviour(GameObject* _gameObject)
 	:Component(_gameObject),
-	velocity({0, 0}),
+	velocity({0, 0, 0}),
 	radius(0)
 {
 }
@@ -15,17 +15,21 @@ void BallBehaviour::Update()
 		return;
 	}
 
-	gameObject->transform->setLocalPosition(position() + glm::vec3(velocity.x, velocity.y, 0));
+	gameObject->transform->setLocalPosition(position() + velocity);
 
 	if (left() < -1 || right() > 1)
 		velocity.x = -velocity.x;
-	if (top() > 1 || bottom() < -1)
+	
+    if (top() > 1 || bottom() < -1)
 		velocity.y = -velocity.y;
+    
+    if (position().z < -1 || position().z > 1)
+        velocity.z = -velocity.z;
 }
 
 void BallBehaviour::Start()
 {
-	velocity = { 0.021f, 0.01f };
+	velocity = { 0.02f, 0.01f, 0.002f};
 	radius = 0.02f;
 	gameObject->transform->setLocalScale(glm::vec3(radius, radius, 1));
 }

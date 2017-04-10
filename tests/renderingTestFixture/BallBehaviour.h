@@ -8,7 +8,7 @@
 class BallBehaviour: public Component
 {
 private:
-	glm::vec2 velocity;
+	glm::vec3 velocity;
 public:
 	float radius;
 	glm::vec3 position() const { return gameObject->transform->getLocalPosition(); }

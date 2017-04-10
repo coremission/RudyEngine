@@ -50,7 +50,7 @@ TrailRenderer::TrailRenderer(GameObject* _gameObject, int _segmentsCount):
 {
 	segments.resize(_segmentsCount);
 	for (auto& s : segments)
-		s = glm::vec2(0.0f, 0.0f);
+		s = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 TrailRenderer::~TrailRenderer()
@@ -74,9 +74,7 @@ void TrailRenderer::render() const {
 
     // 4. uniforms
     glm::mat4 viewProjectionMatrix = Camera::getMainCamera()->getViewProjectionMatrix();
-	// todo: matrix name in shader must be renamed to ViewProjection
-	// todo: shader file must be renamed to TrailVertex
-    rudy::setUniformMat4(shaderProgram->programId(), "Model2Projection", viewProjectionMatrix);
+	rudy::setUniformMat4(shaderProgram->programId(), "ViewProjection", viewProjectionMatrix);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -92,7 +90,7 @@ void TrailRenderer::update() {
 	using namespace glm;
 	
     // 1. Get current gameObject position
-	auto objPos = vec2(gameObject->transform->getPosition());
+	auto objPos = gameObject->transform->getPosition();
 
 	// 2. Compare with previously stored position (emit new segment)
 	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > 0.18f) {
@@ -149,27 +147,26 @@ void TrailRenderer::updateMeshData() {
 	for (int i = 0; i < segments.size() && i < usedSegmentsCount; ++i) {
 		bool isLastPoint = i == segments.size() - 1;
 		auto point = segments[i];
-		int index = isLastPoint ? i - 1 : i + 1;
-		auto nextPoint = segments[index];
+		auto nextPoint = segments[isLastPoint ? i - 1 : i + 1]; // take prev point for last to get direction
 
-		auto _vector = point - nextPoint;
-		float segmentWidth = TrailWidth * ((segments.size() - i) / static_cast<float>(segments.size()));
-		auto p1 = point + normalize(vec2(-_vector.y, _vector.x)) * segmentWidth;
-		auto p2 = point + normalize(vec2(_vector.y, -_vector.x)) * segmentWidth;
+		auto deltaVector = point - nextPoint;
+        
+		float segmentWidth = TrailWidth * ((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
+		auto p1 = point + normalize(vec3(-deltaVector.y, deltaVector.x, 0)) * segmentWidth;
+		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, 0)) * segmentWidth;
 
 		size_t meshIndex = VerticesPerSegment * i;
 		
 		if (!isLastPoint) {
-			mesh->data[meshIndex].position = vec3(p1, 0.0f);
-            mesh->data[meshIndex + 1].position = vec3(p2, 0.0f);
+			mesh->data[meshIndex].position = p1;
+            mesh->data[meshIndex + 1].position = p2;
 		}
 		else { // must be flipped for last segment to get nicely closed last segment 'ribbon'
-			mesh->data[meshIndex].position = vec3(p2, 0.0f);
-			mesh->data[meshIndex + 1].position = vec3(p1, 0.0f);
+			mesh->data[meshIndex].position = p2;
+			mesh->data[meshIndex + 1].position = p1;
 		}
 	}
     
-
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vec3) * mesh->data.size(), &mesh->data[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

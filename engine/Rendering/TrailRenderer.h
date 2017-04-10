@@ -19,8 +19,8 @@ public:
 
 struct TrailMaterialTraits {
 	static constexpr const char* ShaderProgramName = "trail_renderer_shader_prog";
-	static constexpr const char* VertexShaderPath = "shaders/Vertex.glsl";
-	static constexpr const char* FragmentShaderPath = "shaders/Fragment.glsl";
+	static constexpr const char* VertexShaderPath = "shaders/TrailVertex.glsl";
+	static constexpr const char* FragmentShaderPath = "shaders/TrailFragment.glsl";
 	typedef float PerVertexData;
 	typedef std::vector<PerVertexData> MeshData;
 	typedef TrailMesh Mesh;
@@ -31,7 +31,7 @@ class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {
 	GameObject* gameObject;
 	int maxSegmentsCount;
 	int usedSegmentsCount;
-	std::vector<glm::vec2> segments;
+	std::vector<glm::vec3> segments;
 public:
 	explicit TrailRenderer(GameObject* _gameObject, int _segmentsCount);
 	virtual ~TrailRenderer() override;

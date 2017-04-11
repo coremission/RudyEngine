@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
+include(CMakeFunctions.txt)
+
 project (RudyEngine)
 add_subdirectory(engine)
 
@@ -36,8 +38,10 @@ add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp ${RENDERING_TESTS_D
 set_target_properties(renderingTest PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(renderingTest engine)
 
-add_custom_command(TARGET renderingTest POST_BUILD
- COMMAND ${CMAKE_COMMAND} -E copy_directory ${RENDERING_TESTS_DIR}/shaders $<TARGET_FILE_DIR:renderingTest>/shaders)
+targetPostBuildCopyDir(renderingTest ${RENDERING_TESTS_DIR}/shaders shaders)
+
+#add_custom_command(TARGET renderingTest POST_BUILD
+# COMMAND ${CMAKE_COMMAND} -E copy_directory ${RENDERING_TESTS_DIR}/shaders $<TARGET_FILE_DIR:renderingTest>/shaders)
 
 add_custom_command(TARGET renderingTest POST_BUILD
  COMMAND ${CMAKE_COMMAND} -E copy_directory ${RENDERING_TESTS_DIR}/sprites $<TARGET_FILE_DIR:renderingTest>/sprites)

@@ -1,0 +1,5 @@
+function(targetPostBuildCopyDir target from to)
+    add_custom_command(TARGET ${target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory 
+        ${from} $<TARGET_FILE_DIR:${target}>/${to})
+endfunction(targetPostBuildCopyDir)

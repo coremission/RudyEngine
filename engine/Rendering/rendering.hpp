@@ -31,7 +31,8 @@ class Mesh: public BaseMesh {
 template<typename DerivedRenderer, typename Traits>
 class Renderer : public IRenderer {
 protected:
-	typename Traits::MeshData meshData;
+	using MeshDataType = typename Traits::MeshData;
+	MeshDataType meshData;
 	std::shared_ptr<typename Traits::Mesh> mesh;
 	std::shared_ptr<ShaderProgram> shaderProgram;
 

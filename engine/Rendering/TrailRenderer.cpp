@@ -17,6 +17,7 @@ TrailMesh::TrailMesh(size_t size):
 {
 	using namespace glm;
 	data.resize(size); // make mesh data buffer its fixed size
+	std::cout << "mesh size: " << data.size() << std::endl;
 
 	// 1. create vao
 	glGenVertexArrays(1, &vao);
@@ -26,7 +27,7 @@ TrailMesh::TrailMesh(size_t size):
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	// 3. fill data
-	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshDataType) * data.size(), &data[0], GL_STREAM_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(MeshDataType) * data.size(), &data[0], GL_DYNAMIC_DRAW);
 
 	// 4. bind attributes
     bindAttribute(0, 3, GL_FLOAT, false, attribOffset(position));
@@ -38,7 +39,7 @@ TrailMesh::TrailMesh(size_t size):
 
 TrailMesh::~TrailMesh()
 {
-	std::cout << "mesh vbo deleted: " << vao << std::endl;
+	std::cout << "mesh vao deleted: " << vao << std::endl;
 	glDeleteVertexArrays(1, &vao);
 }
 
@@ -78,11 +79,11 @@ void TrailRenderer::render() const {
     glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//std::cout << "trail render" << std::endl;
+	//std::cout << "trail render " << usedSegmentsCount << std::endl;
 }
 
-std::shared_ptr<TrailMesh> TrailRenderer::createMesh(size_t size) {
-	auto result = std::make_shared<TrailMesh>(size * VerticesPerSegment);
+std::shared_ptr<TrailMesh> TrailRenderer::createMesh(size_t segmentsCount) {
+	auto result = std::make_shared<TrailMesh>(segmentsCount * VerticesPerSegment);
 	return result;
 }
 
@@ -93,7 +94,7 @@ void TrailRenderer::update() {
 	auto objPos = gameObject->transform->getPosition();
 
 	// 2. Compare with previously stored position (emit new segment)
-	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > 0.18f) {
+	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > 0.58f) {
 		usedSegmentsCount = min(++usedSegmentsCount, maxSegmentsCount);
 		// 2.1 shift positions and forget last
 		for (int i = segments.size() - 1; i > 0; --i)
@@ -104,13 +105,14 @@ void TrailRenderer::update() {
 	segments[0] = objPos;
     
 	// 4. fade out trail
+	
 	if (usedSegmentsCount > 1) {
 		auto& lastSegmentPos = segments[usedSegmentsCount - 1];
 		auto preLastSegmentPos = segments[usedSegmentsCount - 2];
 
 		auto lastSegmentVector = preLastSegmentPos - lastSegmentPos;
 		float segmentLength = length(lastSegmentVector);
-		constexpr float fadeOutSpeed = 0.01f;
+		constexpr float fadeOutSpeed = 0.002f;
 		if(segmentLength < fadeOutSpeed) {
 			--usedSegmentsCount;
 		}
@@ -120,7 +122,7 @@ void TrailRenderer::update() {
 	}
     
     // 5. make smoother angles
-    constexpr float smoothFactor = 0.05f;
+    /*constexpr float smoothFactor = 0.01f;
     
     for(int i = 0; i < usedSegmentsCount - 2 && i < segments.size() - 2; ++i) {
         auto& first = segments[i];
@@ -129,8 +131,8 @@ void TrailRenderer::update() {
         
         auto middle = (first + third) * 0.5f;
         second = (1 - smoothFactor) * second + smoothFactor * middle;
-    }
-
+    }*/
+	
     // 6. Recalculate vbo data
     updateMeshData();
 }
@@ -145,29 +147,33 @@ void TrailRenderer::updateMeshData() {
 
 	// fill positions
 	for (int i = 0; i < segments.size() && i < usedSegmentsCount; ++i) {
-		bool isLastPoint = i == segments.size() - 1;
+		bool isLastSegment = i == segments.size() - 1;
 		auto point = segments[i];
-		auto nextPoint = segments[isLastPoint ? i - 1 : i + 1]; // take prev point for last to get direction
+		auto nextPoint = segments[isLastSegment ? i - 1 : i + 1]; // take prev point for last to get direction
 
 		auto deltaVector = point - nextPoint;
         
-		float segmentWidth = TrailWidth * ((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
+		float segmentWidth = TrailWidth;// *((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
 		auto p1 = point + normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
 		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
 
 		size_t meshIndex = VerticesPerSegment * i;
 		
-		if (!isLastPoint) {
+		if (!isLastSegment) {
 			mesh->data[meshIndex].position = p1;
+			mesh->data[meshIndex].color = vec4(0, 1, 0, 1);
             mesh->data[meshIndex + 1].position = p2;
+			mesh->data[meshIndex + 1].color = vec4(0, 1, 0, 1);
 		}
 		else { // must be flipped for last segment to get nicely closed last segment 'ribbon'
 			mesh->data[meshIndex].position = p2;
+			mesh->data[meshIndex].color = vec4(1, 0, 1, 1);
 			mesh->data[meshIndex + 1].position = p1;
+			mesh->data[meshIndex + 1].color = vec4(1, 0, 1, 1);
 		}
 	}
     
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(MeshDataType) * mesh->data.size(), &mesh->data[0]);
+ 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(TrailMesh::MeshDataType) * mesh->data.size(), &mesh->data[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

@@ -29,7 +29,7 @@ void BallBehaviour::Update()
 
 void BallBehaviour::Start()
 {
-	velocity = { 0.02f, 0.01f, 0.002f};
+	velocity = { 0.003f, 0.005f, 0.0f};
 	radius = 0.02f;
 	gameObject->transform->setLocalScale(glm::vec3(radius, radius, 1));
 }

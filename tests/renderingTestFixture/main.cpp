@@ -45,7 +45,7 @@ void setUpScene() {
 
     GameObject* trail = new GameObject("trail");
 	trail->transform->setParent(ball->transform.get());
-	trail->renderer = make_unique<TrailRenderer>(trail, 2);
+	trail->renderer = make_unique<TrailRenderer>(trail, 20);
     
     // TODO: add camera
     // CAMERA

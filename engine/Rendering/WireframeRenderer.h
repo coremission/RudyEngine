@@ -12,10 +12,8 @@ struct WireframeMaterialTraits {
 	static constexpr const char* ShaderProgramName = "wireframe_shader_program";
 	static constexpr const char* VertexShaderPath = "Shaders\\Skybox_Vertex.glsl";
 	static constexpr const char* FragmentShaderPath = "Shaders\\Skybox_Fragment.glsl";
-	// skybox is simple positions-only mesh (here must be glm::vec3);
-	typedef glm::vec3 PerVertexData;
-	typedef std::vector<PerVertexData> MeshData;
-	typedef Mesh<PerVertexData> Mesh;
+	using VertexDataType = glm::vec3;
+	using MeshType = Mesh<VertexDataType>;
 };
 
 class WireframeRenderer : public Renderer<WireframeRenderer, WireframeMaterialTraits> {

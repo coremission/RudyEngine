@@ -31,14 +31,14 @@ class Mesh: public BaseMesh {
 template<typename DerivedRenderer, typename Traits>
 class Renderer : public IRenderer {
 protected:
-	using MeshDataType = typename Traits::MeshData;
-	MeshDataType meshData;
-	std::shared_ptr<typename Traits::Mesh> mesh;
+	using VertexDataType = typename Traits::VertexDataType;
+	
+	std::shared_ptr<typename Traits::MeshType> mesh;
 	std::shared_ptr<ShaderProgram> shaderProgram;
 
 	constexpr DerivedRenderer* derived() { return static_cast<DerivedRenderer*>(this); }
 	// constructor
-	Renderer(std::shared_ptr<typename Traits::Mesh>);
+	Renderer(std::shared_ptr<typename Traits::MeshType>);
 public:
 	virtual void render() const override {
 		// 1. bind mesh to context (bind VAO)
@@ -53,9 +53,8 @@ public:
 };
 
 /////////////////////////////////// TEMPLATE DEFINITIONS///////////////////////////////////////////////////
-
 template <typename DerivedRenderer, typename Traits>
-Renderer<DerivedRenderer, Traits>::Renderer(std::shared_ptr<typename Traits::Mesh> _mesh):
+Renderer<DerivedRenderer, Traits>::Renderer(std::shared_ptr<typename Traits::MeshType> _mesh):
 	// 1. Load mesh
 	mesh(_mesh),
 	// 2. Load shader program

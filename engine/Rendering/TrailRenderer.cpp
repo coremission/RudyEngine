@@ -174,6 +174,6 @@ void TrailRenderer::updateMeshData() {
 	}
     
  	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(TrailMesh::MeshDataType) * mesh->data.size(), &mesh->data[0]);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(VertexDataType) * mesh->data.size(), &mesh->data[0]);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

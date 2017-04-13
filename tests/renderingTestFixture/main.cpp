@@ -41,7 +41,7 @@ void setUpScene() {
     BallBehaviour* ballBehaviour = new BallBehaviour(ball);
     ball->AddComponent<BallBehaviour>(ballBehaviour);
     // create renderer
-    //ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
+    ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
 
     GameObject* trail = new GameObject("trail");
 	trail->transform->setParent(ball->transform.get());

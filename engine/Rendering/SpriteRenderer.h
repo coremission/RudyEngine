@@ -10,9 +10,8 @@ struct SpriteMaterialTraits {
 	static constexpr const char * ShaderProgramName = "default_sprite_shader_prog";
 	static constexpr const char * VertexShaderPath = "shaders/SpriteVertex.glsl";
 	static constexpr const char * FragmentShaderPath = "shaders/SpriteFragment.glsl";
-	typedef float PerVertexData;
-	typedef std::vector<PerVertexData> MeshData;
-	typedef BaseMesh Mesh;
+	using VertexDataType = float; // seems like doesn't matter
+	using MeshType = BaseMesh;
 };
 
 class SpriteRenderer: public Renderer<SpriteRenderer, SpriteMaterialTraits>

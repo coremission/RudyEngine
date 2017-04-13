@@ -20,9 +20,8 @@ struct TrailMaterialTraits {
 	static constexpr const char* ShaderProgramName = "trail_renderer_shader_prog";
 	static constexpr const char* VertexShaderPath = "shaders/TrailVertex.glsl";
 	static constexpr const char* FragmentShaderPath = "shaders/TrailFragment.glsl";
-	using PerVertexData = TrailMesh::MeshDataType;
-	typedef std::vector<PerVertexData> MeshData;
-	typedef TrailMesh Mesh;
+	using VertexDataType = TrailMesh::MeshDataType;
+	using MeshType = TrailMesh;
 };
 
 class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {

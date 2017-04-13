@@ -12,9 +12,8 @@ struct SkyboxMaterialTraits {
 	static constexpr const char* VertexShaderPath = "Shaders\\Skybox_Vertex.glsl";
 	static constexpr const char* FragmentShaderPath = "Shaders\\Skybox_Fragment.glsl";
 	// skybox is simple positions-only mesh (here must be glm::vec3);
-	typedef glm::vec3 PerVertexData;
-	typedef std::vector<PerVertexData> MeshData;
-	typedef BaseMesh Mesh;
+	using VertexDataType = glm::vec3;
+	using MeshType = BaseMesh;
 };
 
 class SkyboxRenderer : public Renderer<SkyboxRenderer, SkyboxMaterialTraits> {

@@ -26,10 +26,11 @@ void SpriteRenderer::render() const
 	GLuint program = shaderProgram->programId();
 	glUseProgram(program);
 
-	// 3. fill uniform variables
+	// 3. set active textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, spriteTexture->id);
 
+	// 3.1 set uniform variables
 	GLuint mwLocation = glGetUniformLocation(program, "Model2World");
 	glm::mat4 model2World = gameObject->transform->getLocalToWorldMatrix();
 	glUniformMatrix4fv(mwLocation, 1, GL_FALSE, &model2World[0][0]);

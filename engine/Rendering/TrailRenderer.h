@@ -10,6 +10,7 @@ public:
     struct MeshDataType{
         glm::vec3 position;
         glm::vec4 color;
+		glm::vec2 uv;
     };
 	std::vector<MeshDataType> data;
 	TrailMesh(size_t size);
@@ -30,8 +31,9 @@ class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {
 	int maxSegmentsCount;
 	int usedSegmentsCount;
 	std::vector<glm::vec3> segments;
+	std::shared_ptr<Texture> texture;
 public:
-	explicit TrailRenderer(GameObject* _gameObject, int _segmentsCount);
+	explicit TrailRenderer(GameObject* _gameObject, int _segmentsCount, const std::string& textureFileName);
 	virtual ~TrailRenderer() override;
 	virtual void render() const override;
 	std::shared_ptr<TrailMesh> createMesh(size_t size);

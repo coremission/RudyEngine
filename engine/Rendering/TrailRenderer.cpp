@@ -1,5 +1,6 @@
 #include "TrailRenderer.h"
 #include "Camera.h"
+#include "TextureManager.h"
 
 #include <iostream>
 
@@ -32,6 +33,7 @@ TrailMesh::TrailMesh(size_t size):
 	// 4. bind attributes
     bindAttribute(0, 3, GL_FLOAT, false, attribOffset(position));
     bindAttribute(1, 4, GL_FLOAT, false, attribOffset(color));
+    bindAttribute(2, 2, GL_FLOAT, true, attribOffset(uv));
     
 	glBindVertexArray(0);
     std::cout << "mesh vbo: " << vbo << " created" << std::endl;
@@ -43,11 +45,12 @@ TrailMesh::~TrailMesh()
 	glDeleteVertexArrays(1, &vao);
 }
 
-TrailRenderer::TrailRenderer(GameObject* _gameObject, int _segmentsCount):
+TrailRenderer::TrailRenderer(GameObject* _gameObject, int _segmentsCount, const std::string& textureFileName):
 	Renderer(createMesh(_segmentsCount)), // triangle strip mesh
 	gameObject(_gameObject),
 	maxSegmentsCount(_segmentsCount),
-	usedSegmentsCount(0)
+	usedSegmentsCount(0),
+	texture(TextureManager::getTexture(textureFileName))
 {
 	segments.resize(_segmentsCount);
 	for (auto& s : segments)
@@ -69,11 +72,15 @@ void TrailRenderer::render() const {
 	// 2. use skybox program
 	glUseProgram(shaderProgram->programId());
 
-	// 3. draw triangle strip
+	// 2.1 draw triangle strip
     // draw line for a while
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    // 4. uniforms
+	// 3. set active textures
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture->id);
+
+	// 4. fill uniform variables
     glm::mat4 viewProjectionMatrix = Camera::getMainCamera()->getViewProjectionMatrix();
 	rudy::setUniformMat4(shaderProgram->programId(), "ViewProjection", viewProjectionMatrix);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
@@ -105,7 +112,6 @@ void TrailRenderer::update() {
 	segments[0] = objPos;
     
 	// 4. fade out trail
-	
 	if (usedSegmentsCount > 1) {
 		auto& lastSegmentPos = segments[usedSegmentsCount - 1];
 		auto preLastSegmentPos = segments[usedSegmentsCount - 2];

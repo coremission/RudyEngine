@@ -74,7 +74,7 @@ void TrailRenderer::render() const {
 
 	// 2.1 draw triangle strip
     // draw line for a while
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// 3. set active textures
 	glActiveTexture(GL_TEXTURE0);
@@ -176,6 +176,8 @@ void TrailRenderer::updateMeshData() {
 			mesh->data[meshIndex].color = vec4(1, 0, 1, 1);
 			mesh->data[meshIndex + 1].position = p1;
 			mesh->data[meshIndex + 1].color = vec4(1, 0, 1, 1);
+            mesh->data[meshIndex].uv = vec2(0, 1);
+            mesh->data[meshIndex + 1].uv = vec2(1, 0);
 		}
 	}
     

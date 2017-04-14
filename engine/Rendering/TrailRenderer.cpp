@@ -165,20 +165,18 @@ void TrailRenderer::updateMeshData() {
 
 		size_t meshIndex = VerticesPerSegment * i;
 		
-		if (!isLastSegment) {
-			mesh->data[meshIndex].position = p1;
-			mesh->data[meshIndex].color = vec4(0, 1, 0, 1);
-            mesh->data[meshIndex + 1].position = p2;
-			mesh->data[meshIndex + 1].color = vec4(0, 1, 0, 1);
-		}
-		else { // must be flipped for last segment to get nicely closed last segment 'ribbon'
-			mesh->data[meshIndex].position = p2;
-			mesh->data[meshIndex].color = vec4(1, 0, 1, 1);
-			mesh->data[meshIndex + 1].position = p1;
-			mesh->data[meshIndex + 1].color = vec4(1, 0, 1, 1);
-            mesh->data[meshIndex].uv = vec2(0, 1);
-            mesh->data[meshIndex + 1].uv = vec2(1, 0);
-		}
+		// At the last segment vertices must be flipped
+		// to get nicely closed last segment 'ribbon'
+		auto& left  = isLastSegment ? mesh->data[meshIndex] : mesh->data[meshIndex + 1];
+		auto& right = isLastSegment ? mesh->data[meshIndex + 1] : mesh->data[meshIndex];
+
+		float uvOffset = (float)i / (float)usedSegmentsCount;
+
+		left.position = p1;
+		left.uv = vec2(0, uvOffset);
+
+        right.position = p2;
+		right.uv = vec2(1, uvOffset);
 	}
     
  	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);

@@ -81,7 +81,7 @@ void Controller::Start()
 			brick->transform->setParent(tempRoot->transform.get());
 			brick->transform->setLocalPosition(start + glm::vec3(offset.x * j, offset.y * i, start.z));
 			brick->AddComponent(brickBehaviour);
-			brick->renderer = std::make_unique<SpriteRenderer>(brick, "Sprites\\brick.png");
+			brick->renderer = std::make_unique<SpriteRenderer>(brick, "sprites/brick.png");
 			bricks.push_back(brickBehaviour);
 		}
 	}

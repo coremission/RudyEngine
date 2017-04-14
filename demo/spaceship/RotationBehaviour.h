@@ -5,6 +5,6 @@
 class RotationBehaviour: public Component
 {
 public:
-	explicit RotationBehaviour::RotationBehaviour(GameObject*);
+	explicit RotationBehaviour(GameObject*);
 	virtual void Update() override;
 };

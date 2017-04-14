@@ -11,7 +11,7 @@ struct OverlayMaterialTraits {
 	static constexpr const char * VertexShaderPath = "Shaders\\Overlay_Vertex.glsl";
 	static constexpr const char * FragmentShaderPath = "Shaders\\Overlay_Fragment.glsl";
 	using VertexDataType = float;
-	using MeshType = Mesh<PerVertexData>;
+	using MeshType = Mesh<VertexDataType>;
 };
 
 class OverlayRenderer: public Renderer<OverlayRenderer, OverlayMaterialTraits>

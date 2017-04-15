@@ -18,8 +18,7 @@ TrailMesh::TrailMesh(size_t size):
 {
 	using namespace glm;
 	data.resize(size); // make mesh data buffer its fixed size
-	std::cout << "mesh size: " << data.size() << std::endl;
-
+	
 	// 1. create vao
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -36,7 +35,7 @@ TrailMesh::TrailMesh(size_t size):
     bindAttribute(2, 2, GL_FLOAT, true, attribOffset(uv));
     
 	glBindVertexArray(0);
-    std::cout << "mesh vbo: " << vbo << " created" << std::endl;
+    std::cout << "mesh vao: " << vao << " created" << std::endl;
 }
 
 TrailMesh::~TrailMesh()

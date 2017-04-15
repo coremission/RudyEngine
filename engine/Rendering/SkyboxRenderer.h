@@ -24,7 +24,7 @@ class SkyboxRenderer : public Renderer<SkyboxRenderer, SkyboxMaterialTraits> {
 	friend class Renderer<SkyboxRenderer, SkyboxMaterialTraits>;
 	GLuint createCubemap(std::vector<std::string> filenames);
 public:
-	explicit SkyboxRenderer(Camera * const _camera, std::vector<std::string> filenames);
+	explicit SkyboxRenderer(Camera* const _camera, std::vector<std::string> filenames);
 	virtual void render() const override;
 	virtual ~SkyboxRenderer() override;
 };

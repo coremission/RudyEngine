@@ -163,19 +163,20 @@ void TrailRenderer::updateMeshData() {
 		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
 
 		size_t meshIndex = VerticesPerSegment * i;
-		
+		float uvOffset = static_cast<float>(i) / static_cast<float>(usedSegmentsCount - 1);
+
 		// At the last segment vertices must be flipped
 		// to get nicely closed last segment 'ribbon'
 		auto& left  = isLastSegment ? mesh->data[meshIndex] : mesh->data[meshIndex + 1];
 		auto& right = isLastSegment ? mesh->data[meshIndex + 1] : mesh->data[meshIndex];
-
-		float uvOffset = (float)i / (float)usedSegmentsCount;
+		vec2 uv1 = isLastSegment ? vec2(0, uvOffset) : vec2(1, uvOffset);
+		vec2 uv2 = isLastSegment ? vec2(1, uvOffset) : vec2(0, uvOffset);
 
 		left.position = p1;
-		left.uv = vec2(0, uvOffset);
+		left.uv = uv1;
 
         right.position = p2;
-		right.uv = vec2(1, uvOffset);
+		right.uv = uv2;
 	}
     
  	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);

@@ -34,7 +34,7 @@ add_library(glad STATIC ${GLAD_SOURCE_DIR}/src/glad.c)
 ####################################
 set(RUDY_MODEL_SOURCES Model/Component.cpp Model/GameObject.cpp Model/ModelLoader.cpp Model/Scene.cpp Model/Transform.cpp Model/VertexData.cpp)
 set(RUDY_RENDERING_SOURCES Rendering/BaseRenderer.cpp Rendering/Camera.cpp Rendering/Mesh.cpp Rendering/MeshManager.cpp Rendering/rendering.cpp Rendering/ShaderLoader.cpp Rendering/ShaderProgram.cpp Rendering/SkyboxRenderer.cpp
-    Rendering/Sprite.cpp Rendering/SpriteRenderer.cpp Rendering/Texture.cpp Rendering/TextureManager.cpp Rendering/TrailRenderer.cpp Rendering/WireframeRenderer.cpp)
+    Rendering/Sprite.cpp Rendering/SpriteRenderer.cpp Rendering/OverlayRenderer.cpp Rendering/Texture.cpp Rendering/TextureManager.cpp Rendering/TrailRenderer.cpp Rendering/WireframeRenderer.cpp)
 set(RUDY_SYSTEM_SOURCES System/Input.cpp System/IOManager.cpp System/Screen.cpp System/Time.cpp)
 set(RUDY_OTHER_SOURCES ${PICO_PNG_DIR}/picopng.cpp)
 

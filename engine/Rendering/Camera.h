@@ -8,18 +8,23 @@
 #include <vector>
 #include <memory>
 
+enum class ClearMethod { DoNotClear, DepthOnly, SolidColor, SkyxBox };
+
 class Camera: public Component
 {
-	static Camera * main;
-
+	static Camera* main;
 private:
 	float horizontalFov;
 	float ratio; // width/height;
 	float nearClippingPlane;
 	float farClippingPlane;
+	ClearMethod clearMethod;
 	std::unique_ptr<IRenderer> skyboxRenderer;
 	mutable glm::mat4 viewMatrix;
 	mutable glm::mat4 projectionMatrix;
+public:
+	void clearWithSkybox() const;
+	void clearWithSolidColor() const;
 
 	void recalculateMatrices() const;
 public:
@@ -34,8 +39,9 @@ public:
 	glm::mat4 getViewMatrix() const;
 	glm::mat4 getProjectionMatrix() const;
 	void loadSkybox(std::vector<std::string>& filenames);
-	void clearWithSkybox() const;
-	static const Camera * getMainCamera() { return main; }
+	void setClearMethod(ClearMethod _clearMethod) { clearMethod = _clearMethod; }
+	void clear() const;
+	static const Camera* getMainCamera() { return main; }
 };
 
 #endif //CAMERA_h

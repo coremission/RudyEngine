@@ -7,6 +7,7 @@
 #include <Rendering/SpriteRenderer.h>
 #include <Rendering/OverlayRenderer.h>
 #include "MarkerController.h"
+#include <Rendering/TrailRenderer.h>
 
 using namespace std;
 
@@ -43,25 +44,25 @@ void _do(int argc, char **argv) {
 void setUpScene()
 {
 	// load space station
-	auto spaceStation = ModelLoader::LoadModel("station", "Assets\\spacestation\\space_station_4.obj",
-		"Assets\\spacestation\\space_station_4_diffuse.png");
+	auto spaceStation = ModelLoader::LoadModel("station", "assets/spacestation/space_station_4.obj",
+		"assets/spacestation/space_station_4_diffuse.png");
 	spaceStation->transform->setLocalPosition(glm::vec3(0, 0, -1800));
 
 	GameObject* spaceShipRootGo = new GameObject("spaceshipRoot");
-	auto spaceShipGo = ModelLoader::LoadModel("spaceCruiser", "Assets\\space_cruiser_4.obj", "Assets\\space_cruiser_4_color.png");
+	auto spaceShipGo = ModelLoader::LoadModel("spaceCruiser", "assets/space_cruiser_4.obj", "assets/space_cruiser_4_color.png");
 	GameObject* cameraGo = new GameObject("camera");
 	float screenRatio = static_cast<float>(Screen::width) / static_cast<float>(Screen::height);
-
+	
 	Camera* camera = new Camera(cameraGo, 60.0f, screenRatio, 0.1f, 10000.0f);
 	cameraGo->AddComponent(camera);
 
 	GameObject* crosshair = new GameObject("crosshair");
 	constexpr float crosshairSize = 0.03f;
 	crosshair->transform->setLocalScale(glm::vec3(crosshairSize, crosshairSize * screenRatio, 1));
-	crosshair->renderer = std::make_unique<OverlayRenderer>(crosshair, "Assets\\crosshair.dds");
+	crosshair->renderer = std::make_unique<OverlayRenderer>(crosshair, "assets/crosshair.png");
 
 	GameObject* marker = new GameObject("stationMarker");
-	marker->renderer = std::make_unique<OverlayRenderer>(marker, "Assets\\marker.dds");
+	marker->renderer = std::make_unique<OverlayRenderer>(marker, "assets/crosshair.png");
 	constexpr float markerSize = 0.04f;
 	MarkerController* markerController = new MarkerController(marker);
 	marker->AddComponent(markerController);
@@ -77,19 +78,19 @@ void setUpScene()
 	GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 	*/
 	auto filenames = std::vector<string>{
-		"Assets\\Skyboxes\\mp_drakeq\\drakeq_rt.png",
-		"Assets\\Skyboxes\\mp_drakeq\\drakeq_lf.png",
-		"Assets\\Skyboxes\\mp_drakeq\\drakeq_up.png",
-		"Assets\\Skyboxes\\mp_drakeq\\drakeq_dn.png",
-		"Assets\\Skyboxes\\mp_drakeq\\drakeq_bk.png",
-		"Assets\\Skyboxes\\mp_drakeq\\drakeq_ft.png",
+		"assets/Skyboxes/mp_drakeq/drakeq_rt.png",
+		"assets/Skyboxes/mp_drakeq/drakeq_lf.png",
+		"assets/Skyboxes/mp_drakeq/drakeq_up.png",
+		"assets/Skyboxes/mp_drakeq/drakeq_dn.png",
+		"assets/Skyboxes/mp_drakeq/drakeq_bk.png",
+		"assets/Skyboxes/mp_drakeq/drakeq_ft.png",
 	};
 
 	camera->loadSkybox(filenames);
 	
 	// automatic rotation
-//	RotationBehaviour* rotation = new RotationBehaviour(spaceShipRootGo);
-//	spaceShipRootGo->AddComponent<RotationBehaviour>(rotation);
+	//	RotationBehaviour* rotation = new RotationBehaviour(spaceShipRootGo);
+	//	spaceShipRootGo->AddComponent<RotationBehaviour>(rotation);
 
 	spaceShipGo->transform->setParent(spaceShipRootGo->transform.get());
 
@@ -102,6 +103,8 @@ void setUpScene()
 	spaceShipGo->transform->rotate(glm::vec3(0, -PI / 2.0f, 0));
 	camera->transform->setParent(spaceShipRootGo->transform.get());
 	camera->transform->setLocalPosition(glm::vec3(0, 20, 50));
+	camera->setClearMethod(ClearMethod::SkyxBox);
+	
 	// use local position because ship is root transform
 	//camera->transform->lookAt(spaceShipGo->transform->getLocalPosition());
 }

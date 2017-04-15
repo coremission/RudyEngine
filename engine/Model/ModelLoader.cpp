@@ -29,7 +29,7 @@ GameObject* ModelLoader::LoadModel(const string& name, const string& modelFilePa
 
 shared_ptr<ShaderProgram> ModelLoader::processMaterial()
 {
-	return ShaderProgram::get("temp_888", "Shaders\\Diffuse_Vertex.glsl", "Shaders\\Diffuse_Fragment.glsl");
+	return ShaderProgram::get("temp_888", "shaders/Diffuse_Vertex.glsl", "shaders/Diffuse_Fragment.glsl");
 }
 
 void ModelLoader::processNode(GameObject* parent, aiNode* node, const aiScene* scene, const string& diffuseTextureFilePath)

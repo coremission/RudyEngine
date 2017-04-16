@@ -50,6 +50,6 @@ void setUpScene() {
     // TODO: add camera
     // CAMERA
     GameObject* camera = new GameObject("camera");
-    camera->transform->setLocalPosition(glm::vec3(0, 0, 5));
+    camera->transform->setLocalPosition(glm::vec3(0, 0, 3));
     camera->AddComponent<Camera>();
 }

@@ -73,7 +73,7 @@ void setUpScene()
 	trail->renderer = make_unique<TrailRenderer>(trail, 55, 10.0f, "sprites/checkerboard.png");
 
 	GameObject* marker = new GameObject("stationMarker");
-	marker->renderer = std::make_unique<OverlayRenderer>(marker, "assets/crosshair.png");
+	marker->renderer = std::make_unique<OverlayRenderer>(marker, "assets/marker.png");
 	constexpr float markerSize = 0.04f;
 	MarkerController* markerController = new MarkerController(marker);
 	marker->AddComponent(markerController);

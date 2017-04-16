@@ -4,7 +4,7 @@
 #include <rudymath.hpp>
 
 MarkerController::MarkerController(GameObject* gameObject)
-	:Component(gameObject)
+	:Component(gameObject), target(nullptr)
 {
 }
 
@@ -15,6 +15,7 @@ MarkerController::~MarkerController()
 
 void MarkerController::Update()
 {
+	/* todo: temporary commented
 	static float nextUpdateTime = 0.0f;
 	if (nextUpdateTime > Time::time)
 		return;
@@ -37,6 +38,7 @@ void MarkerController::Update()
 	point.y = rudy::clamp(point.y, -1, 1);
 
 	transform->setLocalPosition(glm::vec3(point.x, point.y, 0));
+	*/
 }
 
 void MarkerController::setTarget(Transform* newTarget)

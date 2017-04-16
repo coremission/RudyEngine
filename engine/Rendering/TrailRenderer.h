@@ -36,7 +36,7 @@ class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {
 public:
 	explicit TrailRenderer(GameObject* _gameObject, int _segmentsCount, float _trailWidth, const std::string& textureFileName);
 	virtual ~TrailRenderer() override;
-	virtual void render() const override;
+	virtual void render(const Camera* const camera) const override;
 	std::shared_ptr<TrailMesh> createMesh(size_t size);
 	virtual void update() override;
 	void updateMeshData();

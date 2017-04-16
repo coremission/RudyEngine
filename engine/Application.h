@@ -9,14 +9,14 @@ class Application
 {
 private:
 	static GLFWwindow* window;
+	static std::vector<Camera*> cameras;
 	static std::unique_ptr<Models::Scene> scene;
-	static Camera* camera;
 
-	static void renderScene();
+	static void renderScene(Camera* camera);
 
 	static void processMousePress(int, int, int, int);
 	static void processMousePressedMove(int, int);
-	static void drawGameObject(GameObject&);
+	static void drawGameObject(GameObject&, Camera*);
 	Application() = delete;
 	Application(const Application&) = delete;
 	const Application& operator=(Application&) = delete;
@@ -26,7 +26,7 @@ private:
 	static void processMouseFreeMove(GLFWwindow*, double, double);
 
 public:
-	static void setCamera(Camera * _camera) { camera = _camera; }
+	static void addCamera(Camera* camera) { cameras.push_back(camera); }
 
 	static void initialize(int* argc, char** argv);
 	static void runMainLoop();

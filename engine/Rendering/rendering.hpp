@@ -1,15 +1,22 @@
 #ifndef RUDY_RENDERING_HPP
 #define RUDY_RENDERING_HPP
 
+#include "Camera.h";
 #include "ShaderProgram.h"
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>
 
+class Camera;
+namespace rudy
+{
+	void registerCamera(Camera* camera);
+}
+
 // Basic interface to Use in GameObject
 class IRenderer {
 public:
-	virtual void render() const {};
+	virtual void render(const Camera* const camera) const {};
 	virtual void update() {};
 	virtual ~IRenderer() = default;
 };
@@ -40,7 +47,7 @@ protected:
 	// constructor
 	Renderer(std::shared_ptr<typename Traits::MeshType>);
 public:
-	virtual void render() const override {
+	virtual void render(const Camera* const camera) const override {
 		// 1. bind mesh to context (bind VAO)
 
 		// 2. use shader program

@@ -63,7 +63,7 @@ TrailRenderer::~TrailRenderer()
 {
 }
 
-void TrailRenderer::render() const {
+void TrailRenderer::render(const Camera* const camera) const {
     // there must be at least 2 segments to get something drawable
 	if (usedSegmentsCount < 2)
 		return;
@@ -83,7 +83,7 @@ void TrailRenderer::render() const {
 	glBindTexture(GL_TEXTURE_2D, texture->id);
 
 	// 4. fill uniform variables
-    glm::mat4 viewProjectionMatrix = Camera::getMainCamera()->getViewProjectionMatrix();
+    glm::mat4 viewProjectionMatrix = camera->getViewProjectionMatrix();
 	rudy::setUniformMat4(shaderProgram->programId(), "ViewProjection", viewProjectionMatrix);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     

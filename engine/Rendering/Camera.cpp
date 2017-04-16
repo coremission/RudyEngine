@@ -6,9 +6,6 @@
 #include <vector>
 #include <memory>
 
-// static fields
-Camera* Camera::main = nullptr;
-
 Camera::Camera(GameObject* go)
 	:Component(go), 
 	horizontalFov(45), 
@@ -17,7 +14,7 @@ Camera::Camera(GameObject* go)
 	farClippingPlane(100.0f),
 	clearMethod(ClearMethod::SolidColor)
 {
-	Camera::main = this;
+	rudy::registerCamera(this);
 	recalculateMatrices();
 }
 
@@ -29,7 +26,7 @@ Camera::Camera(GameObject * _gameObject, float _fov, float _ratio, float _near, 
 	farClippingPlane(_far),
 	clearMethod(ClearMethod::SolidColor)
 {
-	Camera::main = this;
+	rudy::registerCamera(this);
 	recalculateMatrices();
 }
 
@@ -69,12 +66,12 @@ void Camera::recalculateMatrices() const {
 }
 
 void Camera::loadSkybox(std::vector<std::string>& filenames) {
-	skyboxRenderer = std::make_unique<SkyboxRenderer>(this, filenames);
+	skyboxRenderer = std::make_unique<SkyboxRenderer>(filenames);
 }
 
 void Camera::clearWithSkybox() const
 {
-	skyboxRenderer->render();
+	skyboxRenderer->render(this);
 }
 
 void Camera::clearWithSolidColor() const

@@ -9,10 +9,10 @@
 #include <memory>
 
 enum class ClearMethod { DoNotClear, DepthOnly, SolidColor, SkyxBox };
+class IRenderer;
 
 class Camera: public Component
 {
-	static Camera* main;
 private:
 	float horizontalFov;
 	float ratio; // width/height;
@@ -41,7 +41,6 @@ public:
 	void loadSkybox(std::vector<std::string>& filenames);
 	void setClearMethod(ClearMethod _clearMethod) { clearMethod = _clearMethod; }
 	void clear() const;
-	static const Camera* getMainCamera() { return main; }
 };
 
 #endif //CAMERA_h

@@ -22,7 +22,7 @@ class SpriteRenderer: public Renderer<SpriteRenderer, SpriteMaterialTraits>
 public:
 	SpriteRenderer(GameObject* gameObject, const std::string& spriteFileName);
 	virtual ~SpriteRenderer() override;
-	virtual void render() const override;
+	virtual void render(const Camera* const camera) const override;
 };
 
 #endif //SPRITERENDERER_h

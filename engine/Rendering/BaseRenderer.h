@@ -22,7 +22,7 @@ public:
 
 	BaseRenderer(GameObject* gameObject, std::shared_ptr<ShaderProgram>, std::shared_ptr<LegacyMesh> mesh, const std::string& diffuseTextureFilename);
 	virtual ~BaseRenderer();
-	virtual void render() const override;
+	virtual void render(const Camera* const camera) const override;
 
 	static std::unique_ptr<BaseRenderer> create(GameObject* gameObject, std::shared_ptr<ShaderProgram> material, std::shared_ptr<LegacyMesh> mesh, const std::string& diffuseTextureFilename);
 };

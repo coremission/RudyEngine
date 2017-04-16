@@ -2,8 +2,6 @@
 #define WIREFRAMERENDERER_h
 
 #include "rendering.hpp"
-
-#include <vector>
 #include <glm/glm.hpp>
 
 class GameObject;
@@ -20,7 +18,7 @@ class WireframeRenderer : public Renderer<WireframeRenderer, WireframeMaterialTr
 	friend class Renderer<WireframeRenderer, WireframeMaterialTraits>;
 public:
 	explicit WireframeRenderer(GameObject* gameObject);
-	virtual void render() const override;
+	virtual void render(const Camera* const camera) const override;
 	virtual ~WireframeRenderer() override;
 };
 

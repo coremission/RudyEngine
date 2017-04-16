@@ -13,7 +13,7 @@ BaseRenderer::~BaseRenderer()
 {
 }
 
-void BaseRenderer::render() const
+void BaseRenderer::render(const Camera* const camera) const
 {
 	glBindVertexArray(mesh->vao);
 
@@ -28,8 +28,8 @@ void BaseRenderer::render() const
 	glUniformMatrix4fv(m2wLocation, 1, GL_FALSE, &modelingMatrix[0][0]);
 
 	GLuint mvpLocation = glGetUniformLocation(program, "Model2Projection");
-	glm::mat4 viewProjectionMatrix = Camera::getMainCamera()->getViewProjectionMatrix();
-	glm::mat4 viewMatrix = Camera::getMainCamera()->getViewMatrix();
+	glm::mat4 viewProjectionMatrix = camera->getViewProjectionMatrix();
+	glm::mat4 viewMatrix = camera->getViewMatrix();
 
 	glm::mat4 mvpMatrix = viewProjectionMatrix * modelingMatrix;
 	glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, &mvpMatrix[0][0]);

@@ -3,15 +3,14 @@
 #include "MeshManager.h"
 #include <iostream>
 
-SkyboxRenderer::SkyboxRenderer(Camera * const _camera, std::vector<std::string> filenames):
+SkyboxRenderer::SkyboxRenderer(std::vector<std::string> filenames):
 	Renderer(MeshManager::getSkyboxMesh()),
-	cubeMapTextureId(createCubemap(filenames)),
-	camera(_camera)
+	cubeMapTextureId(createCubemap(filenames))
 {
 	std::cout << "skybox renderer created" << std::endl;
 }
 
-void SkyboxRenderer::render() const
+void SkyboxRenderer::render(const Camera* const camera) const
 {
 	// 0. reset depth mask
 	glDepthMask(GL_FALSE);

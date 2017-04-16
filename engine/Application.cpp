@@ -11,6 +11,8 @@ using namespace std;
 
 // static fields
 std::unique_ptr<Models::Scene> Application::scene = std::make_unique<Models::Scene>();
+std::vector<Camera*> Application::cameras;
+
 GLFWwindow* Application::window = nullptr;
 
 void glfwErrorCallback(int errorCode, const char* errorDescription) {
@@ -60,7 +62,7 @@ void Application::initialize(int* argc, char ** argv) {
 	glEnable(GL_DEPTH_TEST);
 
 	glfwGetFramebufferSize(window, &Screen::width, &Screen::height);
-	glViewport(0, 0, Screen::width, Screen::height);
+	glViewport(100, 0, Screen::width, Screen::height);
 
 	glPolygonMode(GL_FRONT, GL_FILL);
 
@@ -76,39 +78,39 @@ void Application::initialize(int* argc, char ** argv) {
 
 void Application::runMainLoop()
 {
-	while (!glfwWindowShouldClose(window))
-	{
+	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		glfwSwapBuffers(window);
-		renderScene();
+		for(auto& c :cameras) {
+			renderScene(c);
+		}
 	}
 
 	glfwTerminate();
 }
 
-void Application::renderScene() {
+void Application::renderScene(Camera* camera) {
 	Time::updateClock();
 	
-	auto mainCamera = Camera::getMainCamera();
-	if(mainCamera != nullptr)
-		mainCamera->clear();
+	if(camera != nullptr)
+		camera->clear();
 
 	for(auto it = scene->begin(); it != scene->end(); ++it)
 	{
-		drawGameObject(*it->second);
+		drawGameObject(*it->second, camera);
 		// todo: there maybe must be base Update call for Component
 		// Component::Update();
 		it->second->Update();
 	}
 }
 
-void Application::drawGameObject(GameObject& gameObject)
+void Application::drawGameObject(GameObject& gameObject, Camera* camera)
 {
 	if (!gameObject.renderer)
 		return;
 
     gameObject.renderer->update();
-	gameObject.renderer->render();
+	gameObject.renderer->render(camera);
 }
 
 void Application::processKeyboard(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -161,4 +163,9 @@ void Application::exit()
 	// Engine::scene.AddModel();
 	// rename Application to Engine
 	scene.reset();
+}
+
+void rudy::registerCamera(Camera* _camera)
+{
+	Application::addCamera(_camera);
 }

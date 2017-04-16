@@ -22,7 +22,7 @@ class OverlayRenderer: public Renderer<OverlayRenderer, OverlayMaterialTraits>
 public:
 	OverlayRenderer(GameObject* gameObject, const std::string& spriteFileName);
 	virtual ~OverlayRenderer() override;
-	virtual void render() const override;
+	virtual void render(const Camera* const camera) const override;
 };
 
 #endif //OVERLAYRENDERER_h

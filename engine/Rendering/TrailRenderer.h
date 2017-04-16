@@ -30,10 +30,11 @@ class TrailRenderer : public Renderer<TrailRenderer, TrailMaterialTraits> {
 	GameObject* gameObject;
 	int maxSegmentsCount;
 	int usedSegmentsCount;
+	float trailWidth;
 	std::vector<glm::vec3> segments;
 	std::shared_ptr<Texture> texture;
 public:
-	explicit TrailRenderer(GameObject* _gameObject, int _segmentsCount, const std::string& textureFileName);
+	explicit TrailRenderer(GameObject* _gameObject, int _segmentsCount, float _trailWidth, const std::string& textureFileName);
 	virtual ~TrailRenderer() override;
 	virtual void render() const override;
 	std::shared_ptr<TrailMesh> createMesh(size_t size);

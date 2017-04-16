@@ -8,6 +8,7 @@
 #include <Rendering/OverlayRenderer.h>
 #include "MarkerController.h"
 #include <Rendering/TrailRenderer.h>
+#include "MoveBehaviour.h"
 
 using namespace std;
 
@@ -61,13 +62,23 @@ void setUpScene()
 	crosshair->transform->setLocalScale(glm::vec3(crosshairSize, crosshairSize * screenRatio, 1));
 	crosshair->renderer = std::make_unique<OverlayRenderer>(crosshair, "assets/crosshair.png");
 
+	// some object
+	GameObject* object = new GameObject("object");
+	object->AddComponent(new MoveBehaviour(object));
+	object->transform->setParent(spaceShipRootGo->transform.get());
+	object->transform->setLocalPosition(glm::vec3(0, 0, 5));
+
+	GameObject* trail = new GameObject("trail");
+	trail->transform->setParent(object->transform.get());
+	trail->renderer = make_unique<TrailRenderer>(trail, 55, 10.0f, "sprites/checkerboard.png");
+
 	GameObject* marker = new GameObject("stationMarker");
 	marker->renderer = std::make_unique<OverlayRenderer>(marker, "assets/crosshair.png");
 	constexpr float markerSize = 0.04f;
 	MarkerController* markerController = new MarkerController(marker);
 	marker->AddComponent(markerController);
 	marker->transform->setLocalScale(glm::vec3(markerSize, markerSize * screenRatio, 1));
-	markerController->setTarget(spaceStation->transform.get());
+	markerController->setTarget(object->transform.get());
 
 	/*
 	GL_TEXTURE_CUBE_MAP_POSITIVE_X

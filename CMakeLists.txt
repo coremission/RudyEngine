@@ -20,7 +20,7 @@ set_target_properties(learnOpenGL PROPERTIES COMPILE_FLAGS "-std=c++14")
 
 # Spaceship Demo
 set(SPACESHIP_DIR demo/spaceship)
-set(SPACESHIP_SRC ${SPACESHIP_DIR}/main.cpp ${SPACESHIP_DIR}/CameraController.cpp ${SPACESHIP_DIR}/MarkerController.cpp ${SPACESHIP_DIR}/RotationBehaviour.cpp)
+set(SPACESHIP_SRC ${SPACESHIP_DIR}/main.cpp ${SPACESHIP_DIR}/MoveBehaviour.cpp ${SPACESHIP_DIR}/CameraController.cpp ${SPACESHIP_DIR}/MarkerController.cpp ${SPACESHIP_DIR}/RotationBehaviour.cpp)
 add_executable(spaceship ${SPACESHIP_SRC})
 set_target_properties(spaceship PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(spaceship engine)

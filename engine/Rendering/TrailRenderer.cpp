@@ -44,11 +44,14 @@ TrailMesh::~TrailMesh()
 	glDeleteVertexArrays(1, &vao);
 }
 
-TrailRenderer::TrailRenderer(GameObject* _gameObject, int _segmentsCount, const std::string& textureFileName):
+TrailRenderer::TrailRenderer(GameObject* _gameObject,
+	int _segmentsCount,
+	float _trailWidth, 	const std::string& textureFileName):
 	Renderer(createMesh(_segmentsCount)), // triangle strip mesh
 	gameObject(_gameObject),
 	maxSegmentsCount(_segmentsCount),
 	usedSegmentsCount(0),
+	trailWidth(_trailWidth),
 	texture(TextureManager::getTexture(textureFileName))
 {
 	segments.resize(_segmentsCount);
@@ -100,7 +103,7 @@ void TrailRenderer::update() {
 	auto objPos = gameObject->transform->getPosition();
 
 	// 2. Compare with previously stored position (emit new segment)
-	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > 0.58f) {
+	if (usedSegmentsCount < 2 || length(objPos - segments[1]) > trailWidth) {
 		usedSegmentsCount = min(++usedSegmentsCount, maxSegmentsCount);
 		// 2.1 shift positions and forget last
 		for (int i = segments.size() - 1; i > 0; --i)
@@ -117,7 +120,7 @@ void TrailRenderer::update() {
 
 		auto lastSegmentVector = preLastSegmentPos - lastSegmentPos;
 		float segmentLength = length(lastSegmentVector);
-		constexpr float fadeOutSpeed = 0.002f;
+		constexpr float fadeOutSpeed = 0.0002f;
 		if(segmentLength < fadeOutSpeed) {
 			--usedSegmentsCount;
 		}
@@ -148,7 +151,6 @@ void TrailRenderer::update() {
  */
 void TrailRenderer::updateMeshData() {
 	using namespace glm;
-	constexpr float TrailWidth = 0.1f;
 
 	// fill positions
 	for (int i = 0; i < segments.size() && i < usedSegmentsCount; ++i) {
@@ -158,12 +160,12 @@ void TrailRenderer::updateMeshData() {
 
 		auto deltaVector = point - nextPoint;
         
-		float segmentWidth = TrailWidth;// *((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
+		float segmentWidth = trailWidth;// *((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
 		auto p1 = point + normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
 		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
 
 		size_t meshIndex = VerticesPerSegment * i;
-		float uvOffset = static_cast<float>(i) / static_cast<float>(usedSegmentsCount - 1);
+		float uvOffset = i % 2 == 0 ? 1 : 0;
 
 		// At the last segment vertices must be flipped
 		// to get nicely closed last segment 'ribbon'

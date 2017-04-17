@@ -116,6 +116,8 @@ void setUpScene()
 	camera->transform->setLocalPosition(glm::vec3(0, 20, 50));
 	camera->setClearMethod(ClearMethod::SkyxBox);
 	
+	//camera->setRenderTexture(new RenderTexture(Screen::width, Screen::height));
+	
 	// use local position because ship is root transform
 	//camera->transform->lookAt(spaceShipGo->transform->getLocalPosition());
 }

@@ -62,7 +62,7 @@ void Application::initialize(int* argc, char ** argv) {
 	glEnable(GL_DEPTH_TEST);
 
 	glfwGetFramebufferSize(window, &Screen::width, &Screen::height);
-	glViewport(100, 0, Screen::width, Screen::height);
+	glViewport(0, 0, Screen::width, Screen::height);
 
 	glPolygonMode(GL_FRONT, GL_FILL);
 
@@ -94,7 +94,7 @@ void Application::renderScene(Camera* camera) {
 	
 	if(camera != nullptr)
 		camera->clear();
-
+	
 	for(auto it = scene->begin(); it != scene->end(); ++it)
 	{
 		drawGameObject(*it->second, camera);
@@ -102,6 +102,8 @@ void Application::renderScene(Camera* camera) {
 		// Component::Update();
 		it->second->Update();
 	}
+	
+	camera->drawScreenFromRenderTexture();
 }
 
 void Application::drawGameObject(GameObject& gameObject, Camera* camera)

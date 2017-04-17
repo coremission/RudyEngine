@@ -7,9 +7,12 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <Rendering/RenderTexture.h>
 
 enum class ClearMethod { DoNotClear, DepthOnly, SolidColor, SkyxBox };
 class IRenderer;
+class BaseMesh;
+class ShaderProgram;
 
 class Camera: public Component
 {
@@ -22,6 +25,11 @@ private:
 	std::unique_ptr<IRenderer> skyboxRenderer;
 	mutable glm::mat4 viewMatrix;
 	mutable glm::mat4 projectionMatrix;
+
+	// fullscreen fx
+	std::unique_ptr<RenderTexture> renderTexture;
+	std::shared_ptr<BaseMesh> quadMesh;
+	std::shared_ptr<ShaderProgram> fxShader;
 public:
 	void clearWithSkybox() const;
 	void clearWithSolidColor() const;
@@ -41,6 +49,9 @@ public:
 	void loadSkybox(std::vector<std::string>& filenames);
 	void setClearMethod(ClearMethod _clearMethod) { clearMethod = _clearMethod; }
 	void clear() const;
+	void setRenderTexture(RenderTexture* _renderTexture);
+	void loadFullScreenFx();
+	void drawScreenFromRenderTexture();
 };
 
 #endif //CAMERA_h

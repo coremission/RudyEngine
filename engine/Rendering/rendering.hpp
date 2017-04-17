@@ -3,6 +3,7 @@
 
 #include "Camera.h";
 #include "ShaderProgram.h"
+#include "RenderTexture.h"
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>

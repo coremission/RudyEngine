@@ -5,6 +5,9 @@
 #include <glm/gtx/transform.hpp>
 #include <vector>
 #include <memory>
+#include <Rendering/MeshManager.h>
+#include <Rendering/ShaderLoader.h>
+#include <Rendering/TextureManager.h>
 
 Camera::Camera(GameObject* go)
 	:Component(go), 
@@ -81,6 +84,11 @@ void Camera::clearWithSolidColor() const
 }
 
 void Camera::clear() const {
+	if (renderTexture)
+		renderTexture->bind();
+	else
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	switch(clearMethod) {
 		case ClearMethod::DoNotClear:
 			return;
@@ -94,4 +102,60 @@ void Camera::clear() const {
 		default: 
 			break;
 	}
+}
+
+void Camera::setRenderTexture(RenderTexture* _renderTexture)
+{
+	if(_renderTexture == nullptr) {
+		renderTexture.reset();
+		return;
+	}
+
+	renderTexture = std::unique_ptr<RenderTexture>(_renderTexture);
+	loadFullScreenFx();
+}
+
+// todo: temp
+std::shared_ptr<Texture> tex;
+
+void Camera::loadFullScreenFx()
+{
+	// 1. mesh
+	quadMesh = MeshManager::getDefaultSpriteMesh();
+
+	// 2. shader program
+	fxShader = ShaderProgram::get("fxFullScreen", "shaders/SpriteVertex.glsl",
+		"shaders/SpriteFragment.glsl");
+
+	// 3. texture
+	tex = TextureManager::getTexture("assets/marker.png");
+}
+
+void Camera::drawScreenFromRenderTexture()
+{
+	if (!renderTexture)
+		return;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	// draw fullscreen
+	// 1. bind vao
+	glBindVertexArray(quadMesh->vao);
+
+	// 2. use program
+	GLuint program = fxShader->programId();
+	glUseProgram(program);
+
+	// 3. set active textures
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tex->id);// ->getTextureId());
+
+	// 4. draw 6 vertices as triangles
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+
+	// 5. unbind program, texture and VAO
+	glUseProgram(0);
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

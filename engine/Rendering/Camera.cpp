@@ -115,20 +115,14 @@ void Camera::setRenderTexture(RenderTexture* _renderTexture)
 	loadFullScreenFx();
 }
 
-// todo: temp
-std::shared_ptr<Texture> tex;
-
 void Camera::loadFullScreenFx()
 {
 	// 1. mesh
 	quadMesh = MeshManager::getDefaultSpriteMesh();
 
 	// 2. shader program
-	fxShader = ShaderProgram::get("fxFullScreen", "shaders/SpriteVertex.glsl",
-		"shaders/SpriteFragment.glsl");
-
-	// 3. texture
-	tex = TextureManager::getTexture("assets/marker.png");
+	fxShader = ShaderProgram::get("fxFullScreen", "shaders/ScreenFX_Vertex.glsl",
+		"shaders/ScreenFX_Fragment.glsl");
 }
 
 void Camera::drawScreenFromRenderTexture()
@@ -137,7 +131,7 @@ void Camera::drawScreenFromRenderTexture()
 		return;
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClear(GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// draw fullscreen
 	// 1. bind vao
@@ -149,7 +143,7 @@ void Camera::drawScreenFromRenderTexture()
 
 	// 3. set active textures
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tex->id);// ->getTextureId());
+	glBindTexture(GL_TEXTURE_2D, renderTexture->getTextureId());
 
 	// 4. draw 6 vertices as triangles
 	glDrawArrays(GL_TRIANGLES, 0, 6);

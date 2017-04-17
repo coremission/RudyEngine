@@ -2,7 +2,7 @@
 layout (location = 0) in vec2 position;
 layout (location = 1) in vec4 in_color;
 layout (location = 2) in vec2 texCoords;
-
+//layout (location = 3) in vec3 in_normal;
 out vec2 TexCoords;
 
 void main()

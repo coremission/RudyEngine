@@ -9,8 +9,8 @@
 
 struct SkyboxMaterialTraits {
 	static constexpr const char* ShaderProgramName = "skybox_shader_program";
-	static constexpr const char* VertexShaderPath = "Shaders\\Skybox_Vertex.glsl";
-	static constexpr const char* FragmentShaderPath = "Shaders\\Skybox_Fragment.glsl";
+	static constexpr const char* VertexShaderPath = "shaders/Skybox_Vertex.glsl";
+	static constexpr const char* FragmentShaderPath = "shaders/Skybox_Fragment.glsl";
 	// skybox is simple positions-only mesh (here must be glm::vec3);
 	using VertexDataType = glm::vec3;
 	using MeshType = BaseMesh;

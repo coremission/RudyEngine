@@ -5,7 +5,7 @@
 class RenderTexture {
 	GLuint fbo;
 	GLuint texture;
-
+	GLuint depthStencilTexture;
 	int width;
 	int height;
 

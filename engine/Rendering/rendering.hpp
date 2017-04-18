@@ -1,7 +1,7 @@
 #ifndef RUDY_RENDERING_HPP
 #define RUDY_RENDERING_HPP
 
-#include "Camera.h";
+#include "Camera.h"
 #include "ShaderProgram.h"
 #include "RenderTexture.h"
 #include <vector>

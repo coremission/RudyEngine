@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <Rendering/TrailRenderer.h>
+#include "CameraController.h"
 
 using namespace std;
 
@@ -41,15 +42,20 @@ void setUpScene() {
     BallBehaviour* ballBehaviour = new BallBehaviour(ball);
     ball->AddComponent<BallBehaviour>(ballBehaviour);
     // create renderer
-    ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
+    //ball->renderer = make_unique<SpriteRenderer>(ball, "sprites/ball.png");
 
     GameObject* trail = new GameObject("trail");
 	trail->transform->setParent(ball->transform.get());
-	trail->renderer = make_unique<TrailRenderer>(trail, 15, 0.1f, "sprites/checkerboard.png");
+	trail->renderer = make_unique<TrailRenderer>(trail, 2, 0.05f, "sprites/checkerboard.png");
     
     // TODO: add camera
     // CAMERA
+	GameObject* rotator = new GameObject("rotator");
+	rotator->transform->setParent(ball->transform.get());
+	rotator->AddComponent<CameraController>(new CameraController(rotator));
+
     GameObject* camera = new GameObject("camera");
-    camera->transform->setLocalPosition(glm::vec3(0, 0, 3));
+    camera->transform->setParent(rotator->transform.get());
+	camera->transform->setLocalPosition(glm::vec3(0, 1, 10));
     camera->AddComponent<Camera>();
 }

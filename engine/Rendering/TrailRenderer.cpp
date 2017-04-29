@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 
 #include <iostream>
+#include <System/Log.h>
 
 #define attribOffset(field) (reinterpret_cast<void *>(offsetof(TrailMesh::MeshDataType, field)))
 constexpr int VerticesPerSegment = 2;
@@ -64,7 +65,7 @@ TrailRenderer::~TrailRenderer()
 }
 
 void TrailRenderer::render(const Camera* const camera) const {
-    // there must be at least 2 segments to get something drawable
+	// there must be at least 2 segments to get something drawable
 	if (usedSegmentsCount < 2)
 		return;
 
@@ -76,7 +77,7 @@ void TrailRenderer::render(const Camera* const camera) const {
 
 	// 2.1 draw triangle strip
     // draw line for a while
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// 3. set active textures
 	glActiveTexture(GL_TEXTURE0);
@@ -89,6 +90,11 @@ void TrailRenderer::render(const Camera* const camera) const {
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render " << usedSegmentsCount << std::endl;
+
+	return;
+	glm::vec4 p = viewProjectionMatrix * glm::vec4(gameObject->transform->getPosition(), 1.0f);
+	std::cout << "camera pos: " << camera->transform->getPosition() << std::endl;
+	std::cout << "projected " << p << std::endl;
 }
 
 std::shared_ptr<TrailMesh> TrailRenderer::createMesh(size_t segmentsCount) {
@@ -161,8 +167,11 @@ void TrailRenderer::updateMeshData() {
 		auto deltaVector = point - nextPoint;
         
 		float segmentWidth = trailWidth;// *((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
-		auto p1 = point + normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
-		auto p2 = point + normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
+		
+		auto Matrix = glm::mat3_cast(gameObject->transform->getRotation());
+		
+		auto p1 = point + Matrix * normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
+		auto p2 = point + Matrix * normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
 
 		size_t meshIndex = VerticesPerSegment * i;
 		float uvOffset = i % 2 == 0 ? 1 : 0;

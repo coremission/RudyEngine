@@ -48,7 +48,7 @@ targetPostBuildCopyDir(breakout ${BREAKOUT_DIR}/sprites sprites)
 set(TESTS_DIR ${CMAKE_SOURCE_DIR}/tests)
 # Renderering tests
 set(RENDERING_TESTS_DIR ${TESTS_DIR}/renderingTestFixture)
-add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp ${RENDERING_TESTS_DIR}/BallBehaviour.cpp)
+add_executable(renderingTest ${RENDERING_TESTS_DIR}/main.cpp ${RENDERING_TESTS_DIR}/BallBehaviour.cpp ${RENDERING_TESTS_DIR}/CameraController.cpp)
 set_target_properties(renderingTest PROPERTIES COMPILE_FLAGS "-std=c++14")
 target_link_libraries(renderingTest engine)
 

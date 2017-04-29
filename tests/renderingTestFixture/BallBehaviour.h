@@ -9,6 +9,7 @@ class BallBehaviour: public Component
 {
 private:
 	glm::vec3 velocity;
+	bool pause;
 public:
 	float radius;
 	glm::vec3 position() const { return gameObject->transform->getLocalPosition(); }

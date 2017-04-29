@@ -6,21 +6,34 @@ using namespace std;
 // static fields
 glm::vec2 Input::mousePosition;
 set<Input::KeyCodeType> Input::keysPressed;
+set<Input::KeyCodeType> Input::keysPressedThisFrame;
 
-void Input::registerKeyPressed(KeyCodeType key)
+void removeFromSet(set<Input::KeyCodeType>& someSet, Input::KeyCodeType key)
 {
-	keysPressed.insert(key);
-}
-
-void Input::resetKeyPressed(KeyCodeType key)
-{
-	for (auto it = keysPressed.begin(); it != keysPressed.end();) {
+	for (auto it = someSet.begin(); it != someSet.end();) {
 		if (*it == key) {
-			keysPressed.erase(it);
+			someSet.erase(it);
 			return;
 		}
 		++it;
 	}
+}
+
+void Input::registerKeyPressed(KeyCodeType key)
+{
+	if (key == KeyCodes::PAUSEBREAK)
+		exit(0);
+	
+	if (!checkIfKeyPressed(key)) {
+		keysPressedThisFrame.insert(key);
+		keysPressed.insert(key);
+	}
+}
+
+void Input::resetKeyPressed(KeyCodeType key)
+{
+	removeFromSet(keysPressed, key);
+	removeFromSet(keysPressedThisFrame, key);
 }
 
 void Input::setMouseToCenter()
@@ -31,4 +44,14 @@ void Input::setMouseToCenter()
 bool Input::checkIfKeyPressed(KeyCodeType key)
 {
 	return find(keysPressed.begin(), keysPressed.end(), key) != keysPressed.end();
+}
+
+bool Input::checkIfKeyDown(KeyCodeType key)
+{
+	return find(keysPressedThisFrame.begin(), keysPressedThisFrame.end(), key) != keysPressedThisFrame.end();
+}
+
+void Input::reset()
+{
+	keysPressedThisFrame.clear();
 }

@@ -50,7 +50,7 @@ void Application::initialize(int* argc, char ** argv) {
 	glfwMakeContextCurrent(window);
 
 	// init glad
-	if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+	if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
         std::cout << glGetString(GL_VERSION) << std::endl;
     }
     else {
@@ -79,11 +79,17 @@ void Application::initialize(int* argc, char ** argv) {
 void Application::runMainLoop()
 {
 	while (!glfwWindowShouldClose(window)) {
+		// One frame
 		glfwPollEvents();
 		glfwSwapBuffers(window);
+
+		// render each camera
 		for(auto& c :cameras) {
 			renderScene(c);
 		}
+
+		// reset Input (todo: this seems to be ansynchronized with glfw callback for input)
+		Input::reset(); 
 	}
 
 	glfwTerminate();
@@ -117,10 +123,9 @@ void Application::drawGameObject(GameObject& gameObject, Camera* camera)
 
 void Application::processKeyboard(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
-	//cout << key << " scancode: " << scancode << " action: " << " " << action << " mode: " << mode << endl;
-
 	if(action == GLFW_PRESS)
 		Input::registerKeyPressed(key);
+	
 	if (action == GLFW_RELEASE)
 		Input::resetKeyPressed(key);
 

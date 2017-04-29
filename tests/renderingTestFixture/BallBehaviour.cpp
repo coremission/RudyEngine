@@ -5,31 +5,37 @@
 BallBehaviour::BallBehaviour(GameObject* _gameObject)
 	:Component(_gameObject),
 	velocity({0, 0, 0}),
+	pause(false),
 	radius(0)
 {
 }
 
 void BallBehaviour::Update()
 {
-	if(Input::checkIfKeyPressed(KeyCodes::SPACE)) {
+	if(Input::checkIfKeyDown(KeyCodes::SPACE)) {
+		pause = !pause;
+		std::cout << "pause is " << (pause ? "on" : "off") << std::endl;
 		return;
 	}
 
+	if (pause)
+		return;
+
 	gameObject->transform->setLocalPosition(position() + velocity);
 
-	if (left() < -1 || right() > 1)
-		velocity.x = -velocity.x;
+	//if (left() < -1 || right() > 1)
+	//	velocity.x = -velocity.x;
 	
-    if (top() > 1 || bottom() < -1)
-		velocity.y = -velocity.y;
+    //if (top() > 1 || bottom() < -1)
+	//	velocity.y = -velocity.y;
     
-    if (position().z < -1 || position().z > 1)
-        velocity.z = -velocity.z;
+    //if (position().z < -1 || position().z > 1)
+    //    velocity.z = -velocity.z;
 }
 
 void BallBehaviour::Start()
 {
-	velocity = { 0.003f, 0.005f, 0.0f};
+	velocity = { 0.000f, 0.001f, 0.00f};
 	radius = 0.02f;
 	gameObject->transform->setLocalScale(glm::vec3(radius, radius, 1));
 }

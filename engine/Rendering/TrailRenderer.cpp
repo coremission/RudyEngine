@@ -91,10 +91,9 @@ void TrailRenderer::render(const Camera* const camera) const {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	//std::cout << "trail render " << usedSegmentsCount << std::endl;
 
-	return;
-	glm::vec4 p = viewProjectionMatrix * glm::vec4(gameObject->transform->getPosition(), 1.0f);
-	std::cout << "camera pos: " << camera->transform->getPosition() << std::endl;
-	std::cout << "projected " << p << std::endl;
+	//glm::vec4 p = viewProjectionMatrix * glm::vec4(gameObject->transform->getPosition(), 1.0f);
+	//std::cout << "camera pos: " << camera->transform->getPosition() << std::endl;
+	//std::cout << "projected " << p << std::endl;
 }
 
 std::shared_ptr<TrailMesh> TrailRenderer::createMesh(size_t segmentsCount) {
@@ -170,8 +169,20 @@ void TrailRenderer::updateMeshData() {
 		
 		auto Matrix = glm::mat3_cast(gameObject->transform->getRotation());
 		
-		auto p1 = point + Matrix * normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
-		auto p2 = point + Matrix * normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
+		//auto p1 = point + Matrix * normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
+		//auto p2 = point + Matrix * normalize(vec3(deltaVector.y, -deltaVector.x, nextPoint.z)) * segmentWidth;
+
+		vec3 up = Matrix * vec3(0.0f, 0.9f, 0.1f); // WTF? Doesn't work with (0, 1, 0) ???
+		vec3 dNormalized = deltaVector;
+		vec3 crossResult = glm::cross(dNormalized, up);
+
+		//std::cout << "cross (" << dNormalized << ", " << up << ") = " << crossResult << std::endl;
+
+		auto orthogonal = normalize(crossResult);
+		auto p1 = point + orthogonal * segmentWidth;
+		auto p2 = point - orthogonal * segmentWidth;
+
+		//std::cout << "width " << segmentWidth << ", " << length(p1 - p2) << std::endl;
 
 		size_t meshIndex = VerticesPerSegment * i;
 		float uvOffset = i % 2 == 0 ? 1 : 0;

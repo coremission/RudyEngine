@@ -46,7 +46,7 @@ void setUpScene() {
 
     GameObject* trail = new GameObject("trail");
 	trail->transform->setParent(ball->transform.get());
-	trail->renderer = make_unique<TrailRenderer>(trail, 2, 0.05f, "sprites/checkerboard.png");
+	trail->renderer = make_unique<TrailRenderer>(trail, 30, 0.05f, "sprites/checkerboard.png");
     
     // TODO: add camera
     // CAMERA
@@ -56,6 +56,6 @@ void setUpScene() {
 
     GameObject* camera = new GameObject("camera");
     camera->transform->setParent(rotator->transform.get());
-	camera->transform->setLocalPosition(glm::vec3(0, 1, 10));
+	camera->transform->setLocalPosition(glm::vec3(0, 1, 5));
     camera->AddComponent<Camera>();
 }

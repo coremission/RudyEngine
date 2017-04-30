@@ -60,7 +60,7 @@ void Application::initialize(int* argc, char ** argv) {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-
+	
 	glfwGetFramebufferSize(window, &Screen::width, &Screen::height);
 	glViewport(0, 0, Screen::width, Screen::height);
 

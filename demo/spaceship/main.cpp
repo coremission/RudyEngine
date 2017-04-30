@@ -68,9 +68,15 @@ void setUpScene()
 	object->transform->setParent(spaceShipRootGo->transform.get());
 	object->transform->setLocalPosition(glm::vec3(0, 0, 5));
 
-	GameObject* trail = new GameObject("trail");
-	trail->transform->setParent(object->transform.get());
-	trail->renderer = make_unique<TrailRenderer>(trail, 55, 10.0f, "sprites/checkerboard.png");
+	GameObject* trail1 = new GameObject("trail1");
+	trail1->transform->setParent(object->transform.get());
+	trail1->transform->setLocalPosition(glm::vec3(7.5f, 3, 0));
+	trail1->renderer = make_unique<TrailRenderer>(trail1, 155, 1.0f, "sprites/checkerboard.png");
+
+	GameObject* trail2 = new GameObject("trail2");
+	trail2->transform->setParent(object->transform.get());
+	trail2->transform->setLocalPosition(glm::vec3(-7.5f, 3, 0));
+	trail2->renderer = make_unique<TrailRenderer>(trail2, 155, 1.0f, "sprites/checkerboard.png");
 
 	GameObject* marker = new GameObject("stationMarker");
 	marker->renderer = std::make_unique<OverlayRenderer>(marker, "assets/marker.png");

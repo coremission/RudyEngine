@@ -3,7 +3,6 @@
 #include "TextureManager.h"
 
 #include <iostream>
-#include <System/Log.h>
 
 #define attribOffset(field) (reinterpret_cast<void *>(offsetof(TrailMesh::MeshDataType, field)))
 constexpr int VerticesPerSegment = 2;
@@ -77,7 +76,11 @@ void TrailRenderer::render(const Camera* const camera) const {
 
 	// 2.1 draw triangle strip
     // draw line for a while
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	// 2.2 Blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// 3. set active textures
 	glActiveTexture(GL_TEXTURE0);
@@ -88,12 +91,9 @@ void TrailRenderer::render(const Camera* const camera) const {
 	rudy::setUniformMat4(shaderProgram->programId(), "ViewProjection", viewProjectionMatrix);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, usedSegmentsCount * VerticesPerSegment);
     
+	// 5. disable blending and polygon modes
+	glDisable(GL_BLEND);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//std::cout << "trail render " << usedSegmentsCount << std::endl;
-
-	//glm::vec4 p = viewProjectionMatrix * glm::vec4(gameObject->transform->getPosition(), 1.0f);
-	//std::cout << "camera pos: " << camera->transform->getPosition() << std::endl;
-	//std::cout << "projected " << p << std::endl;
 }
 
 std::shared_ptr<TrailMesh> TrailRenderer::createMesh(size_t segmentsCount) {
@@ -165,8 +165,9 @@ void TrailRenderer::updateMeshData() {
 
 		auto deltaVector = point - nextPoint;
         
-		float segmentWidth = trailWidth;// *((segments.size() - i) / static_cast<float>(segments.size())); // narrower at the end of trail
-		
+		float factor = ((segments.size() - i) / static_cast<float>(segments.size()));
+		float segmentWidth = trailWidth * factor; // narrower at the end of trail
+
 		auto Matrix = glm::mat3_cast(gameObject->transform->getRotation());
 		
 		//auto p1 = point + Matrix * normalize(vec3(-deltaVector.y, deltaVector.x, point.z)) * segmentWidth;
@@ -195,10 +196,12 @@ void TrailRenderer::updateMeshData() {
 		vec2 uv2 = isLastSegment ? vec2(1, uvOffset) : vec2(0, uvOffset);
 
 		left.position = p1;
+		left.color = vec4(65, 204, 242, factor);
 		left.uv = uv1;
 
         right.position = p2;
 		right.uv = uv2;
+		right.color = vec4(65, 204, 242, factor);
 	}
     
  	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);

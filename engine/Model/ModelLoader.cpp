@@ -1,6 +1,8 @@
 ﻿#include "ModelLoader.h"
 
 #include <iostream>
+#include <fstream>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -9,6 +11,13 @@
 #include <Rendering/ShaderProgram.h>
 
 using namespace std;
+
+template<typename T>
+void WriteOutBinary(std::vector<T> data, std::string filename) {
+	ofstream fout(filename, ios::out | ios::binary);
+	fout.write(reinterpret_cast<char*>(&data[0]), data.size() * sizeof(T));
+	fout.close();
+}
 
 GameObject* ModelLoader::LoadModel(const string& name, const string& modelFilePath,
 	const string& diffuseTextureFilePath)
@@ -75,12 +84,19 @@ shared_ptr<LegacyMesh> ModelLoader::processMesh(const string& meshId, aiMesh* ai
 		
 		vertices.push_back(vertex);
 	}
+
+
+	//WriteOutBinary<VertexData>(vertices, "vertices.data");
+
 	// Process indices
 	for (GLuint i = 0; i < aiMesh_->mNumFaces; ++i) {
 		aiFace face = aiMesh_->mFaces[i];
 		for (GLuint j = 0; j < face.mNumIndices; j++)
 			indices.push_back(face.mIndices[j]);
 	}
+
+	//WriteOutBinary<GLuint>(indices, "indices.data");
+
 	// Process material
     // don't know what is it
 	//if (aiMesh_->mMaterialIndex >= 0) {

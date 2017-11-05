@@ -34,10 +34,11 @@ void Application::initialize(int* argc, char ** argv) {
     //glfwWindowHint(GLFW_VERSION_MINOR, 3);
     
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	
+
+	glfwWindowHint(GLFW_SAMPLES, 4); // MSAA
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_DEPTH_BITS, 32);
-
+	
 	Screen::width = 640;
 	Screen::height = 480;
 
@@ -60,7 +61,8 @@ void Application::initialize(int* argc, char ** argv) {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	
+	glEnable(GL_MULTISAMPLE); // for MSAA
+
 	glfwGetFramebufferSize(window, &Screen::width, &Screen::height);
 	glViewport(0, 0, Screen::width, Screen::height);
 

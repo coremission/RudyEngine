@@ -71,12 +71,12 @@ void setUpScene()
 	GameObject* trail1 = new GameObject("trail1");
 	trail1->transform->setParent(object->transform.get());
 	trail1->transform->setLocalPosition(glm::vec3(7.5f, 3, 0));
-	trail1->renderer = make_unique<TrailRenderer>(trail1, 155, 1.0f, "sprites/checkerboard.png");
+	trail1->renderer = make_unique<TrailRenderer>(trail1, 35, 1.0f, "sprites/checkerboard.png");
 
 	GameObject* trail2 = new GameObject("trail2");
 	trail2->transform->setParent(object->transform.get());
 	trail2->transform->setLocalPosition(glm::vec3(-7.5f, 3, 0));
-	trail2->renderer = make_unique<TrailRenderer>(trail2, 155, 1.0f, "sprites/checkerboard.png");
+	trail2->renderer = make_unique<TrailRenderer>(trail2, 35, 1.0f, "sprites/checkerboard.png");
 
 	GameObject* marker = new GameObject("stationMarker");
 	marker->renderer = std::make_unique<OverlayRenderer>(marker, "assets/marker.png");
